@@ -1,11 +1,11 @@
 package in.yumtum.api.interfaces;
 
-import in.yumtum.api.vo.Result;
+import in.yumtum.api.vo.ResultVO;
 
 public interface TableService {
 
-	public Result getTableInfo();
-	public Result bookTable();
-	public Result deleteReservation();
+	public ResultVO getTableInfo();
+	public ResultVO bookTable();
+	public ResultVO deleteReservation();
 	
 }

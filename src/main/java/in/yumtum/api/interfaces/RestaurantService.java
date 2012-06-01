@@ -3,8 +3,8 @@
  */
 package in.yumtum.api.interfaces;
 
-import in.yumtum.api.vo.Restaurant;
-import in.yumtum.api.vo.Result;
+import in.yumtum.api.vo.RestaurantVO;
+import in.yumtum.api.vo.ResultVO;
 
 /**
  * @author hmakam
@@ -12,9 +12,9 @@ import in.yumtum.api.vo.Result;
  */
 public interface RestaurantService {
 
-	public Result createRestaurant();
-	public Result updateRestaurant();
-	public Result deactivateRestaurant();
-	public Restaurant getRestaurantDetails(String id);
+	public ResultVO createRestaurant();
+	public ResultVO updateRestaurant();
+	public ResultVO deactivateRestaurant();
+	public RestaurantVO getRestaurantDetails(String id);
 	
 }

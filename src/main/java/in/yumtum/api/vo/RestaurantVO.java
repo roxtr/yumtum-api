@@ -7,6 +7,6 @@ package in.yumtum.api.vo;
  * @author hmakam
  *
  */
-public class Restaurant {
+public class RestaurantVO {
 
 }

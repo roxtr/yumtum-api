@@ -1,5 +1,5 @@
 package in.yumtum.api.vo;
 
-public class User {
+public class ResultVO {
 
 }

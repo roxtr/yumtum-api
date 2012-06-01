@@ -1,13 +1,13 @@
 package in.yumtum.api.interfaces;
 
-import in.yumtum.api.vo.Result;
-import in.yumtum.api.vo.User;
+import in.yumtum.api.vo.ResultVO;
+import in.yumtum.api.vo.UserVO;
 
 public interface UserService {
 	
-	public Result createUser(User user);
-	public Result validateUser(User user);
-	public Result updateUser(User user);
-	public Result forgotPassword(User user);
+	public ResultVO createUser(UserVO user);
+	public ResultVO validateUser(UserVO user);
+	public ResultVO updateUser(UserVO user);
+	public ResultVO forgotPassword(UserVO user);
 	
 }
