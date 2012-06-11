@@ -21,5 +21,11 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+	  <groupId>org.apache.cayenne</groupId>
+	  <artifactId>cayenne-server</artifactId>
+   <!-- Here specify the version of Cayenne you are actually using -->
+	  <version>3.0RC2</version>
+    </dependency>
   </dependencies>
 </project>
