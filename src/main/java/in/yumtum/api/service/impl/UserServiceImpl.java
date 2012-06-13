@@ -1,18 +1,22 @@
-package in.yumtum.api.impl;
+package in.yumtum.api.service.impl;
 
-import in.yumtum.api.interfaces.UserService;
+import in.yumtum.api.service.UserService;
 import in.yumtum.api.vo.ResultVO;
 import in.yumtum.api.vo.UserVO;
 
 public class UserServiceImpl implements UserService {
 
 	public ResultVO createUser(UserVO user) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ResultVO result = validateUser(user);
+		
+		return result;
 	}
 
 	public ResultVO validateUser(UserVO user) {
-		// TODO Auto-generated method stub
+		
+		
+		
 		return null;
 	}
 

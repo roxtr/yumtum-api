@@ -1,4 +1,4 @@
-package in.yumtum.api.interfaces;
+package in.yumtum.api.service;
 
 import in.yumtum.api.vo.ResultVO;
 import in.yumtum.api.vo.UserVO;
