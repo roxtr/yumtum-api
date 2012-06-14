@@ -2,22 +2,24 @@ package in.yumtum.api.vo;
 
 public class ResultVO {
 
-	private String Error;
-	private boolean IfError;
+	private boolean Error;
+	private String ErrorMsg;
 	
-	public String getError() {
+	public boolean isError() {
 		return Error;
 	}
-	public void setError(String error) {
+
+	public void setError(boolean error) {
 		Error = error;
 	}
-	public boolean isIfError() {
-		return IfError;
+
+	public String getErrorMsg() {
+		return ErrorMsg;
 	}
-	public void setIfError(boolean ifError) {
-		IfError = ifError;
+
+	public void setErrorMsg(String errorMsg) {
+		ErrorMsg = errorMsg;
 	}
-	
 
 
 }

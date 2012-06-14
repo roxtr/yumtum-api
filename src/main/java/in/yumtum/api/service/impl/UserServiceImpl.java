@@ -1,6 +1,10 @@
 package in.yumtum.api.service.impl;
 
-import java.util.Collections;
+import in.yumtum.api.cayenne.persistent.YtRestUser;
+import in.yumtum.api.service.UserService;
+import in.yumtum.api.vo.ResultVO;
+import in.yumtum.api.vo.UserVO;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,23 +14,25 @@ import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.query.SelectQuery;
 
-import in.yumtum.api.cayenne.persistent.YtRestUser;
-import in.yumtum.api.service.UserService;
-import in.yumtum.api.vo.ResultVO;
-import in.yumtum.api.vo.UserVO;
-
 public class UserServiceImpl implements UserService {
 
 	public ResultVO createUser(UserVO user) {
 		
-		ResultVO result = validateUser(user);
+		ResultVO result = checkUser(user);
+		
+		if(!result.isError()){
+			
+			ObjectContext context = DataContext.createDataContext();
+			
+			
+		}
 		
 		
 		
 		return null;
 	}
 
-	public ResultVO validateUser(UserVO user) {
+	public ResultVO checkUser(UserVO user) {
 		
 		ObjectContext context = DataContext.createDataContext();
 		
@@ -46,14 +52,12 @@ public class UserServiceImpl implements UserService {
 		
 		if(userList.size() > 0){
 			
-			result.setIfError(true);
-			result.setError("User already exists");
+			result.setError(true);
+			result.setErrorMsg("User already exists");
 			
 		}else{
-			result.setIfError(false);
+			result.setError(false);
 		}
-		
-		System.out.println(result.isIfError());
 		
 		return result;
 	}
@@ -84,6 +88,11 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 	
+	public ResultVO validateLogin(UserVO user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public static void main(String args[]){
 		
 		UserVO user = new UserVO();
@@ -94,7 +103,7 @@ public class UserServiceImpl implements UserService {
 		
 		UserServiceImpl userSImpl = new UserServiceImpl();
 		
-		userSImpl.validateUser(user);
+		userSImpl.checkUser(user);
 		
 		
 	}
