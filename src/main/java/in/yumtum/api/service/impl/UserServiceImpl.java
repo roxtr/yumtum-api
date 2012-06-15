@@ -48,6 +48,8 @@ public class UserServiceImpl implements UserService {
 			}catch(Exception e){
 				
 				//logger.error("Exception in createUser:"+e.getMessage());
+				
+				System.out.println("trace: "+e);
 			}
 			
 	
@@ -201,9 +203,7 @@ public class UserServiceImpl implements UserService {
 		
 		UserVO newUser = new UserVO();
 		UserVO user = new UserVO();
-		
 
-		
 		newUser.setName("makamhareesh");
 		newUser.setfName("Hareesh");
 		newUser.setlName("makam");
@@ -217,7 +217,7 @@ public class UserServiceImpl implements UserService {
 
 		UserServiceImpl userSImpl = new UserServiceImpl();
 		
-		userSImpl.createUser(user);
+		userSImpl.createUser(newUser);
 		
 		user.setName("hareesh");
 		user.setEmail("makamhareesh@gmail.com");
