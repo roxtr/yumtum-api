@@ -1,6 +1,7 @@
 package in.yumtum.api.service.impl;
 
 import in.yumtum.api.cayenne.persistent.YtRestUser;
+import in.yumtum.api.crypto.Password;
 import in.yumtum.api.service.UserService;
 import in.yumtum.api.vo.ResultVO;
 import in.yumtum.api.vo.UserVO;
@@ -9,17 +10,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.cayenne.DataObjectUtils;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.query.SelectQuery;
 
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserServiceImpl implements UserService {
 	
-	// Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+	Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	public ResultVO createUser(UserVO user) {
 		
@@ -32,6 +34,7 @@ public class UserServiceImpl implements UserService {
 				ObjectContext context = DataContext.createDataContext();
 				
 				YtRestUser newUser = context.newObject(YtRestUser.class);
+				String hashPass = Password.getSaltedHash(user.getPassword());
 				
 				newUser.setName(user.getName());
 				newUser.setFName(user.getfName());
@@ -40,16 +43,16 @@ public class UserServiceImpl implements UserService {
 				newUser.setLocality(user.getLocality());
 				newUser.setCity(user.getCity());
 				newUser.setEmail(user.getEmail());
-				newUser.setPassword(user.getPassword());
+				newUser.setPassword(hashPass);
 				newUser.setPhone(user.getPhone());
 				
 				context.commitChanges();
 				
 			}catch(Exception e){
 				
-				//logger.error("Exception in createUser:"+e.getMessage());
+				logger.error("Exception in createUser:"+e.getMessage());
 				
-				System.out.println("trace: "+e);
+				//System.out.println("trace: "+e);
 			}
 			
 	
@@ -87,14 +90,61 @@ public class UserServiceImpl implements UserService {
 			result.setError(false);
 		}
 		
-		System.out.println(userList);
+		logger.info(userList.toString());
 		
 		return result;
 	}
 
 	public ResultVO updateUser(UserVO user) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ObjectContext context = DataContext.createDataContext();
+		
+		Integer userId = user.getUserId();
+		YtRestUser restUser = new YtRestUser();
+		
+		ResultVO result = new ResultVO();
+		
+		try{
+		
+		if(userId != null && userId.intValue() > 0) {
+			restUser = DataObjectUtils.objectForPK(context, YtRestUser.class, userId);
+		}
+		
+		restUser.setFName(user.getfName());
+		
+		if(!"".equals(user.getAddress()) || user.getAddress() != null){
+			restUser.setAddress(user.getAddress());
+		}else if (!"".equals(user.getCity()) || user.getCity() != null){
+			restUser.setCity(user.getCity());
+		}else if (!"".equals(user.getEmail()) || user.getEmail() != null){
+			restUser.setEmail(user.getEmail());
+		}else if (!"".equals(user.getfName()) || user.getfName() != null){
+			restUser.setFName(user.getfName());
+		}else if (!"".equals(user.getlName()) || user.getlName() != null){
+			restUser.setLName(user.getlName());
+		}else if (!"".equals(user.getLocality()) || user.getLocality() != null){
+			restUser.setLocality(user.getLocality());
+		}else if (!"".equals(user.getPassword()) || user.getPassword() != null){
+			restUser.setPassword(user.getPassword());
+		}else if (!"".equals(user.getPhone()) || user.getPhone() != null){
+			restUser.setPassword(user.getPhone());
+		}else if (!"".equals(user.getRestaurantsOwned()) || user.getRestaurantsOwned() != null){
+			restUser.setPassword(user.getRestaurantsOwned());
+		}
+		
+		context.commitChanges();
+		
+		result.setError(false);
+		
+		}catch(Exception e){
+
+			result.setError(true);
+			result.setErrorMsg("User cannot be updated");
+			
+		logger.error("Error while updating user info:"+e.getMessage());
+			//System.out.println("Error while updating user info:"+e);
+		}
+		return result;
 	}
 
 	public ResultVO forgotPassword(UserVO user) {
@@ -156,9 +206,9 @@ public class UserServiceImpl implements UserService {
 		
 		ObjectContext context = DataContext.createDataContext();
 		Map<String,String> params = new HashMap<String,String>();
-		params.put("phone", user.getPhone());
+		params.put("name", user.getName());
 
-		Expression qualifier = Expression.fromString("phone = $phone");
+		Expression qualifier = Expression.fromString("name = $name");
 		
 		qualifier = qualifier.expWithParameters(params);
 		
@@ -173,13 +223,47 @@ public class UserServiceImpl implements UserService {
 		return uNameExists;
 	}
 	
-	public ResultVO validateLogin(UserVO user) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResultVO validateLogin(String userName, String password) {
+	
+		ResultVO result = getUser(userName);
+		
+		if(!result.isError()){
+			
+			return result;
+			
+		}else{
+			String stored = result.getUserVO().getPassword();
+			try {
+				
+				boolean validate = Password.check(password, stored);
+				
+				if(validate){
+					
+					result.setError(true);
+				}else{
+					result.setError(false);
+					result.setErrorMsg("Login Failed");
+				}
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				
+				result.setError(false);
+				result.setErrorMsg("Error while logging in.");
+			
+				e.printStackTrace();
+			}
+			
+			
+		}
+		
+		return result;
 	}
 
 
-	public UserVO getUser(String userName) {
+	public ResultVO getUser(String userName) {
+		
+		ResultVO result = new ResultVO();
 		
 		UserVO user = new UserVO();
 
@@ -195,7 +279,33 @@ public class UserServiceImpl implements UserService {
 		List userList = context.performQuery(select);
 		
 		
-		return null;
+		
+	    if(userList.size() > 0){
+	     	YtRestUser restUser = (YtRestUser) userList.get(0);
+	     	
+	     	user.setName(restUser.getName());
+	     	user.setfName(restUser.getFName());
+	     	user.setlName(restUser.getLName());
+	     	user.setAddress(restUser.getAddress());
+	     	user.setLocality(restUser.getLocality());
+	     	user.setCity(restUser.getCity());
+	     	user.setEmail(restUser.getEmail());
+	     	user.setPhone(restUser.getPhone());
+	     	user.setRestaurantsOwned(restUser.getRestaurantsOwned());
+	     	user.setUserId(restUser.getUserId());
+	     	user.setPassword(restUser.getPassword());
+	     	
+	     	result.setError(false);
+	     	result.setUserVO(user);
+				
+	    }else{
+	    	
+	    	result.setError(true);
+	     	result.setErrorMsg("user does not exist");
+			
+	    	
+	    }
+		return result;
 	}
 
 
@@ -204,29 +314,24 @@ public class UserServiceImpl implements UserService {
 		UserVO newUser = new UserVO();
 		UserVO user = new UserVO();
 
-		newUser.setName("makamhareesh");
+		newUser.setName("hareesh.makam");
 		newUser.setfName("Hareesh");
 		newUser.setlName("makam");
 		newUser.setAddress("9th Phase");
 		newUser.setLocality("KPHB");
 		newUser.setCity("Hyderabad");
-		newUser.setEmail("makamhareesh@gmail.com");
+		newUser.setEmail("hareesh.makam@oracle.com");
 		newUser.setPassword("hareesh");
-		newUser.setPhone("9052228181");
+		newUser.setPhone("9900132174");
 		
-
 		UserServiceImpl userSImpl = new UserServiceImpl();
 		
-		userSImpl.createUser(newUser);
+		//ResultVO resultVO = userSImpl.createUser(newUser);
 		
-		user.setName("hareesh");
-		user.setEmail("makamhareesh@gmail.com");
-		//user.setPhone("9052228181");
+		//System.out.println(resultVO.getErrorMsg());
 		
-		
-		
-		userSImpl.checkUser(user);
-		
-		
+		ResultVO resultVO = userSImpl.validateLogin("hareesh.makam", "hareesh");
+		System.out.println(resultVO.isError());
+		System.out.println(resultVO.getErrorMsg());
 	}
 }

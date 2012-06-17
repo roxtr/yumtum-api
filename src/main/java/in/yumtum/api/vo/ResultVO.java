@@ -4,6 +4,7 @@ public class ResultVO {
 
 	private boolean Error;
 	private String ErrorMsg;
+	private UserVO userVO;
 	
 	public boolean isError() {
 		return Error;
@@ -19,6 +20,14 @@ public class ResultVO {
 
 	public void setErrorMsg(String errorMsg) {
 		ErrorMsg = errorMsg;
+	}
+
+	public UserVO getUserVO() {
+		return userVO;
+	}
+
+	public void setUserVO(UserVO user) {
+		this.userVO = userVO;
 	}
 
 

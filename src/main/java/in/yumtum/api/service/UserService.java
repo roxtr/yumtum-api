@@ -8,8 +8,8 @@ public interface UserService {
 	public ResultVO createUser(UserVO user);
 	public ResultVO checkUser(UserVO user);
 	public ResultVO updateUser(UserVO user);
-	public UserVO getUser(String userName);
-	public ResultVO validateLogin(UserVO user);
+	public ResultVO getUser(String userName);
+	public ResultVO validateLogin(String userName, String password);
 	public ResultVO forgotPassword(UserVO user);
 	public boolean checkEmail(UserVO user);
 	public boolean checkPhone(UserVO user);

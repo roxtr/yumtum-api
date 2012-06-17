@@ -34,17 +34,17 @@
 		<db-attribute name="total_seats" type="VARCHAR" length="45"/>
 	</db-entity>
 	<db-entity name="yt_rest_user" catalog="yumtum">
-		<db-attribute name="address" type="VARCHAR" length="45"/>
-		<db-attribute name="city" type="VARCHAR" length="45"/>
-		<db-attribute name="email" type="VARCHAR" isMandatory="true" length="45"/>
-		<db-attribute name="fName" type="VARCHAR" isMandatory="true" length="45"/>
-		<db-attribute name="lName" type="VARCHAR" length="45"/>
-		<db-attribute name="locality" type="VARCHAR" length="45"/>
-		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="45"/>
-		<db-attribute name="password" type="VARCHAR" isMandatory="true" length="45"/>
-		<db-attribute name="phone" type="VARCHAR" isMandatory="true" length="45"/>
+		<db-attribute name="address" type="VARCHAR" length="2000"/>
+		<db-attribute name="city" type="VARCHAR" length="100"/>
+		<db-attribute name="email" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="fName" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="lName" type="VARCHAR" length="100"/>
+		<db-attribute name="locality" type="VARCHAR" length="200"/>
+		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="password" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="phone" type="VARCHAR" isMandatory="true" length="20"/>
 		<db-attribute name="restaurants_owned" type="VARCHAR" length="45"/>
-		<db-attribute name="user_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="user_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="20"/>
 	</db-entity>
 	<db-entity name="yt_restaurants" catalog="yumtum">
 		<db-attribute name="acceptCC" type="INTEGER" isMandatory="true" length="10"/>

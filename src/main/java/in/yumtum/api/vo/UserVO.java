@@ -12,7 +12,7 @@ public class UserVO {
 	private String password;
 	private String phone;
 	private String restaurantsOwned;
-	private String userId;
+	private Integer userId;
 	
 	public String getAddress() {
 		return address;
@@ -74,11 +74,11 @@ public class UserVO {
 	public void setRestaurantsOwned(String restaurantsOwned) {
 		this.restaurantsOwned = restaurantsOwned;
 	}
-	public String getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUserId(Integer integer) {
+		this.userId = integer;
 	}
 	
 }
