@@ -1,10 +1,13 @@
 package in.yumtum.api.vo;
 
+import in.yumtum.api.cayenne.persistent.YtRestUser;
+
 public class ResultVO {
 
 	private boolean Error;
 	private String ErrorMsg;
 	private UserVO userVO;
+	private YtRestUser ytRestUserVO;
 	
 	public boolean isError() {
 		return Error;
@@ -30,5 +33,14 @@ public class ResultVO {
 		this.userVO = userVO;
 	}
 
+	public YtRestUser getYtRestUserVO() {
+		return ytRestUserVO;
+	}
+
+	public void setYtRestUserVO(YtRestUser ytRestUserVO) {
+		this.ytRestUserVO = ytRestUserVO;
+	}
+
+	
 
 }

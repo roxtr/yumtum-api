@@ -297,6 +297,7 @@ public class UserServiceImpl implements UserService {
 	     	
 	     	result.setError(false);
 	     	result.setUserVO(user);
+	     	result.setYtRestUserVO(restUser);
 				
 	    }else{
 	    	

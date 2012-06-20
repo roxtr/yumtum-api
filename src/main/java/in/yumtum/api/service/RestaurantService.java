@@ -12,8 +12,9 @@ import in.yumtum.api.vo.ResultVO;
  */
 public interface RestaurantService {
 
-	public ResultVO createRestaurant();
-	public ResultVO updateRestaurant();
+	public ResultVO createRestaurant(RestaurantVO restVO);
+	public ResultVO updateRestaurant(RestaurantVO restVO);
+	public ResultVO checkRestaurant(RestaurantVO restVO);
 	public ResultVO deactivateRestaurant();
 	public RestaurantVO getRestaurantDetails(String id);
 	

@@ -6,14 +6,11 @@ import in.yumtum.api.vo.ResultVO;
 
 public class RestaurantServiceImpl implements RestaurantService {
 
-	public ResultVO createRestaurant() {
+	public ResultVO createRestaurant(RestaurantVO restVO) {
 		
-		return null;
-	}
-
-	public ResultVO updateRestaurant() {
-		// TODO Auto-generated method stub
-		return null;
+		ResultVO result = checkRestaurant(restVO);
+		
+		return result;
 	}
 
 	public ResultVO deactivateRestaurant() {
@@ -22,6 +19,16 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	public RestaurantVO getRestaurantDetails(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ResultVO updateRestaurant(RestaurantVO restVO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ResultVO checkRestaurant(RestaurantVO restVO) {
 		// TODO Auto-generated method stub
 		return null;
 	}
