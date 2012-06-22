@@ -261,13 +261,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-	public ResultVO getUser(String userName) {
+	public ResultVO getUser(ObjectContext context, String userName) {
 		
 		ResultVO result = new ResultVO();
 		
 		UserVO user = new UserVO();
 
-		ObjectContext context = DataContext.createDataContext();
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("name", userName);
 
@@ -334,5 +333,10 @@ public class UserServiceImpl implements UserService {
 		ResultVO resultVO = userSImpl.validateLogin("hareesh.makam", "hareesh");
 		System.out.println(resultVO.isError());
 		System.out.println(resultVO.getErrorMsg());
+	}
+
+	public ResultVO getUser(String userName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

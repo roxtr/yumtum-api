@@ -11,15 +11,15 @@ import in.yumtum.api.cayenne.persistent.YtRestUser;
  */
 public class RestaurantVO {
 
-    private String acceptCC;
-    private boolean active;
+    private Integer acceptCC;
+    private Integer active;
     private String address;
-    private String avgCostForTwo;
+    private Integer avgCostForTwo;
     private String city;
     private String cusines;
-    private boolean hasAC;
-    private boolean hasWifi;
-    private boolean isVeg;
+    private Integer hasAC;
+    private Integer hasWifi;
+    private Integer isVeg;
     private String latitude;
     private String locality;
     private String longitude;
@@ -28,18 +28,18 @@ public class RestaurantVO {
     private String phones;
     private String restId;
     private String timings;
-    private YtRestUser toYtRestUser;
+    private String rest_createdBy;
     
-	public String getAcceptCC() {
+	public Integer getAcceptCC() {
 		return acceptCC;
 	}
-	public void setAcceptCC(String acceptCC) {
+	public void setAcceptCC(Integer acceptCC) {
 		this.acceptCC = acceptCC;
 	}
-	public boolean isActive() {
+	public Integer getActive() {
 		return active;
 	}
-	public void setActive(boolean active) {
+	public void setActive(Integer active) {
 		this.active = active;
 	}
 	public String getAddress() {
@@ -48,10 +48,10 @@ public class RestaurantVO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getAvgCostForTwo() {
+	public Integer getAvgCostForTwo() {
 		return avgCostForTwo;
 	}
-	public void setAvgCostForTwo(String avgCostForTwo) {
+	public void setAvgCostForTwo(Integer avgCostForTwo) {
 		this.avgCostForTwo = avgCostForTwo;
 	}
 	public String getCity() {
@@ -66,22 +66,22 @@ public class RestaurantVO {
 	public void setCusines(String cusines) {
 		this.cusines = cusines;
 	}
-	public boolean isHasAC() {
+	public Integer getHasAC() {
 		return hasAC;
 	}
-	public void setHasAC(boolean hasAC) {
+	public void setHasAC(Integer hasAC) {
 		this.hasAC = hasAC;
 	}
-	public boolean isHasWifi() {
+	public Integer getHasWifi() {
 		return hasWifi;
 	}
-	public void setHasWifi(boolean hasWifi) {
+	public void setHasWifi(Integer hasWifi) {
 		this.hasWifi = hasWifi;
 	}
-	public boolean isVeg() {
+	public Integer getIsVeg() {
 		return isVeg;
 	}
-	public void setVeg(boolean isVeg) {
+	public void setVeg(Integer isVeg) {
 		this.isVeg = isVeg;
 	}
 	public String getLatitude() {
@@ -132,11 +132,11 @@ public class RestaurantVO {
 	public void setTimings(String timings) {
 		this.timings = timings;
 	}
-	public YtRestUser getToYtRestUser() {
-		return toYtRestUser;
+	public String getRest_createdBy() {
+		return rest_createdBy;
 	}
-	public void setToYtRestUser(YtRestUser toYtRestUser) {
-		this.toYtRestUser = toYtRestUser;
+	public void setRest_createdBy(String rest_createdBy) {
+		this.rest_createdBy = rest_createdBy;
 	}
 	
 }

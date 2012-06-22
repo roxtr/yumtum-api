@@ -1,5 +1,7 @@
 package in.yumtum.api.service;
 
+import org.apache.cayenne.ObjectContext;
+
 import in.yumtum.api.vo.ResultVO;
 import in.yumtum.api.vo.UserVO;
 
@@ -9,6 +11,7 @@ public interface UserService {
 	public ResultVO checkUser(UserVO user);
 	public ResultVO updateUser(UserVO user);
 	public ResultVO getUser(String userName);
+	public ResultVO getUser(ObjectContext context, String userName);
 	public ResultVO validateLogin(String userName, String password);
 	public ResultVO forgotPassword(UserVO user);
 	public boolean checkEmail(UserVO user);
