@@ -5,8 +5,7 @@
 
 	<node name="yumtumDomainNode"
 		 datasource="yumtumDomainNode.driver.xml"
-		 factory="org.apache.cayenne.conf.DriverDataSourceFactory"
-		 schema-update-strategy="org.apache.cayenne.access.dbsync.CreateIfNoSchemaStrategy">
+		 factory="org.apache.cayenne.conf.DriverDataSourceFactory">
 			<map-ref name="yumtumMap"/>
 	 </node>
 </domain>

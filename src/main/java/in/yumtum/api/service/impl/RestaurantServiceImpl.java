@@ -48,7 +48,6 @@ public class RestaurantServiceImpl implements RestaurantService {
 			newRest.setNfsPhone(restVO.getNfsPhone());
 			newRest.setPhones(restVO.getPhones());
 			newRest.setToYtRestUser(uSImpl.getUser(context, restVO.getRest_createdBy()).getYtRestUserVO());
-			newRest.setTimings(restVO.getTimings());
 			context.commitChanges();
 			}catch(Exception e){
 				
@@ -132,7 +131,6 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restVO.setPhones("9052228181,9900132174");
 		restVO.setRest_createdBy("makamhareesh");
 		restVO.setVeg(1);
-		restVO.setTimings("1,2");
 		restServImpl.createRestaurant(restVO);
 		
 		

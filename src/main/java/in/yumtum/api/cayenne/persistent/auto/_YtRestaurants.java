@@ -1,7 +1,10 @@
 package in.yumtum.api.cayenne.persistent.auto;
 
+import java.util.List;
+
 import org.apache.cayenne.CayenneDataObject;
 
+import in.yumtum.api.cayenne.persistent.YtRestTimings;
 import in.yumtum.api.cayenne.persistent.YtRestUser;
 
 /**
@@ -28,8 +31,8 @@ public abstract class _YtRestaurants extends CayenneDataObject {
     public static final String NFS_PHONE_PROPERTY = "nfsPhone";
     public static final String PHONES_PROPERTY = "phones";
     public static final String REST_ID_PROPERTY = "restId";
-    public static final String TIMINGS_PROPERTY = "timings";
     public static final String TO_YT_REST_USER_PROPERTY = "toYtRestUser";
+    public static final String YT_REST_TIMINGS_ARRAY_PROPERTY = "ytRestTimingsArray";
 
     public static final String REST_ID_PK_COLUMN = "rest_id";
 
@@ -145,19 +148,24 @@ public abstract class _YtRestaurants extends CayenneDataObject {
         return (Long)readProperty("restId");
     }
 
-    public void setTimings(String timings) {
-        writeProperty("timings", timings);
-    }
-    public String getTimings() {
-        return (String)readProperty("timings");
-    }
-
     public void setToYtRestUser(YtRestUser toYtRestUser) {
         setToOneTarget("toYtRestUser", toYtRestUser, true);
     }
 
     public YtRestUser getToYtRestUser() {
         return (YtRestUser)readProperty("toYtRestUser");
+    }
+
+
+    public void addToYtRestTimingsArray(YtRestTimings obj) {
+        addToManyTarget("ytRestTimingsArray", obj, true);
+    }
+    public void removeFromYtRestTimingsArray(YtRestTimings obj) {
+        removeToManyTarget("ytRestTimingsArray", obj, true);
+    }
+    @SuppressWarnings("unchecked")
+    public List<YtRestTimings> getYtRestTimingsArray() {
+        return (List<YtRestTimings>)readProperty("ytRestTimingsArray");
     }
 
 

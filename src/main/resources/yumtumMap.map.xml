@@ -44,7 +44,7 @@
 		<db-attribute name="password" type="VARCHAR" isMandatory="true" length="100"/>
 		<db-attribute name="phone" type="VARCHAR" isMandatory="true" length="20"/>
 		<db-attribute name="restaurants_owned" type="VARCHAR" length="45"/>
-		<db-attribute name="user_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="20"/>
+		<db-attribute name="user_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
 	</db-entity>
 	<db-entity name="yt_restaurants" catalog="yumtum">
 		<db-attribute name="acceptCC" type="INTEGER" isMandatory="true" length="10"/>
@@ -64,7 +64,6 @@
 		<db-attribute name="phones" type="VARCHAR" isMandatory="true" length="100"/>
 		<db-attribute name="rest_createBy" type="INTEGER" isMandatory="true" length="10"/>
 		<db-attribute name="rest_id" type="BIGINT" isPrimaryKey="true" isMandatory="true" length="10"/>
-		<db-attribute name="timings" type="VARCHAR" isMandatory="true" length="20"/>
 	</db-entity>
 	<obj-entity name="Betausers" className="in.yumtum.api.cayenne.persistent.Betausers" dbEntityName="betausers">
 		<obj-attribute name="email" type="java.lang.String" db-attribute-path="email"/>
@@ -88,7 +87,6 @@
 	<obj-entity name="YtRestTimings" className="in.yumtum.api.cayenne.persistent.YtRestTimings" dbEntityName="yt_rest_timings">
 		<obj-attribute name="availableSeats" type="java.lang.String" db-attribute-path="available_seats"/>
 		<obj-attribute name="reserveTime" type="java.lang.String" db-attribute-path="reserve_time"/>
-		<obj-attribute name="restId" type="java.lang.Integer" db-attribute-path="rest_id"/>
 		<obj-attribute name="timeOfDay" type="java.lang.String" db-attribute-path="time_of_day"/>
 		<obj-attribute name="timingId" type="java.lang.Integer" db-attribute-path="timing_id"/>
 		<obj-attribute name="totalSeats" type="java.lang.String" db-attribute-path="total_seats"/>
@@ -123,13 +121,15 @@
 		<obj-attribute name="nfsPhone" type="java.lang.String" db-attribute-path="nfs_phone"/>
 		<obj-attribute name="phones" type="java.lang.String" db-attribute-path="phones"/>
 		<obj-attribute name="restId" type="java.lang.Long" db-attribute-path="rest_id"/>
-		<obj-attribute name="timings" type="java.lang.String" db-attribute-path="timings"/>
 	</obj-entity>
 	<db-relationship name="toYtRestTimings" source="yt_rest_booking" target="yt_rest_timings" toMany="false">
 		<db-attribute-pair source="timing_id" target="timing_id"/>
 	</db-relationship>
 	<db-relationship name="toYtRestUser" source="yt_rest_timings" target="yt_rest_user" toMany="false">
 		<db-attribute-pair source="CreatedBy" target="user_id"/>
+	</db-relationship>
+	<db-relationship name="toYtRestaurants" source="yt_rest_timings" target="yt_restaurants" toMany="false">
+		<db-attribute-pair source="rest_id" target="rest_createBy"/>
 	</db-relationship>
 	<db-relationship name="ytRestBookingArray" source="yt_rest_timings" target="yt_rest_booking" toMany="true">
 		<db-attribute-pair source="timing_id" target="timing_id"/>
@@ -143,10 +143,15 @@
 	<db-relationship name="toYtRestUser" source="yt_restaurants" target="yt_rest_user" toMany="false">
 		<db-attribute-pair source="rest_createBy" target="user_id"/>
 	</db-relationship>
+	<db-relationship name="ytRestTimingsArray" source="yt_restaurants" target="yt_rest_timings" toMany="true">
+		<db-attribute-pair source="rest_createBy" target="rest_id"/>
+	</db-relationship>
 	<obj-relationship name="toYtRestTimings" source="YtRestBooking" target="YtRestTimings" deleteRule="Nullify" db-relationship-path="toYtRestTimings"/>
 	<obj-relationship name="toYtRestUser" source="YtRestTimings" target="YtRestUser" deleteRule="Nullify" db-relationship-path="toYtRestUser"/>
+	<obj-relationship name="toYtRestaurants" source="YtRestTimings" target="YtRestaurants" deleteRule="Nullify" db-relationship-path="toYtRestaurants"/>
 	<obj-relationship name="ytRestBookingArray" source="YtRestTimings" target="YtRestBooking" deleteRule="Deny" db-relationship-path="ytRestBookingArray"/>
 	<obj-relationship name="ytRestTimingsArray" source="YtRestUser" target="YtRestTimings" deleteRule="Deny" db-relationship-path="ytRestTimingsArray"/>
 	<obj-relationship name="ytRestaurantsArray" source="YtRestUser" target="YtRestaurants" deleteRule="Deny" db-relationship-path="ytRestaurantsArray"/>
 	<obj-relationship name="toYtRestUser" source="YtRestaurants" target="YtRestUser" deleteRule="Nullify" db-relationship-path="toYtRestUser"/>
+	<obj-relationship name="ytRestTimingsArray" source="YtRestaurants" target="YtRestTimings" deleteRule="Deny" db-relationship-path="ytRestTimingsArray"/>
 </data-map>
