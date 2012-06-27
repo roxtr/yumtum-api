@@ -110,8 +110,6 @@ public class UserServiceImpl implements UserService {
 			restUser = DataObjectUtils.objectForPK(context, YtRestUser.class, userId);
 		}
 		
-		restUser.setFName(user.getfName());
-		
 		if(!"".equals(user.getAddress()) || user.getAddress() != null){
 			restUser.setAddress(user.getAddress());
 		}else if (!"".equals(user.getCity()) || user.getCity() != null){
@@ -127,9 +125,9 @@ public class UserServiceImpl implements UserService {
 		}else if (!"".equals(user.getPassword()) || user.getPassword() != null){
 			restUser.setPassword(user.getPassword());
 		}else if (!"".equals(user.getPhone()) || user.getPhone() != null){
-			restUser.setPassword(user.getPhone());
+			restUser.setPhone(user.getPhone());
 		}else if (!"".equals(user.getRestaurantsOwned()) || user.getRestaurantsOwned() != null){
-			restUser.setPassword(user.getRestaurantsOwned());
+			restUser.setRestaurantsOwned(user.getRestaurantsOwned());
 		}
 		
 		context.commitChanges();
@@ -314,7 +312,7 @@ public class UserServiceImpl implements UserService {
 		UserVO newUser = new UserVO();
 		UserVO user = new UserVO();
 
-		newUser.setName("hareesh.makam");
+		newUser.setName("makamhareesh");
 		newUser.setfName("Hareesh");
 		newUser.setlName("makam");
 		newUser.setAddress("9th Phase");
@@ -326,13 +324,13 @@ public class UserServiceImpl implements UserService {
 		
 		UserServiceImpl userSImpl = new UserServiceImpl();
 		
-		//ResultVO resultVO = userSImpl.createUser(newUser);
+		ResultVO resultVO = userSImpl.createUser(newUser);
 		
 		//System.out.println(resultVO.getErrorMsg());
-		
+		/*
 		ResultVO resultVO = userSImpl.validateLogin("hareesh.makam", "hareesh");
 		System.out.println(resultVO.isError());
-		System.out.println(resultVO.getErrorMsg());
+		System.out.println(resultVO.getErrorMsg());*/
 	}
 
 	public ResultVO getUser(String userName) {

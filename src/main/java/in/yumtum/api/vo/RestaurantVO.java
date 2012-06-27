@@ -26,7 +26,7 @@ public class RestaurantVO {
     private String name;
     private String nfsPhone;
     private String phones;
-    private String restId;
+    private Integer restId;
     private String timings;
     private String rest_createdBy;
     
@@ -120,10 +120,10 @@ public class RestaurantVO {
 	public void setPhones(String phones) {
 		this.phones = phones;
 	}
-	public String getRestId() {
+	public Integer getRestId() {
 		return restId;
 	}
-	public void setRestId(String restId) {
+	public void setRestId(Integer restId) {
 		this.restId = restId;
 	}
 	public String getTimings() {

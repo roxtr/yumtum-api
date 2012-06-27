@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.cayenne.DataObjectUtils;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.exp.Expression;
@@ -62,18 +63,133 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return result;
 	}
 
-	public ResultVO deactivateRestaurant() {
+
+	public ResultVO getRestaurantDetails(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public RestaurantVO getRestaurantDetails(String id) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResultVO getRestaurantDetails(ObjectContext context,int id) {
+
+		ResultVO result = new ResultVO();
+		
+		RestaurantVO restVO = new RestaurantVO();
+		
+		Integer restId = id;
+		YtRestaurants ytRest = new YtRestaurants();
+		
+		
+		try{
+		
+		if(restId != null && restId.intValue() > 0) {
+			ytRest = DataObjectUtils.objectForPK(context, YtRestaurants.class, restId);
+		}
+		if(ytRest != null){
+			
+			restVO.setAcceptCC(ytRest.getAcceptCC());
+			restVO.setActive(ytRest.getActive());
+			restVO.setAddress(ytRest.getAddress());
+			restVO.setAvgCostForTwo(ytRest.getAvgCostForTwo());
+			restVO.setCity(ytRest.getCity());
+			restVO.setCusines(ytRest.getCusines());
+			restVO.setHasAC(ytRest.getHasAC());
+			restVO.setHasWifi(ytRest.getHasWifi());
+			restVO.setLatitude(ytRest.getLatitude());
+			restVO.setLongitude(ytRest.getLongitude());
+			restVO.setLocality(ytRest.getLocality());
+			restVO.setName(ytRest.getName());
+			restVO.setNfsPhone(ytRest.getNfsPhone());
+			restVO.setPhones(ytRest.getPhones());
+			restVO.setRest_createdBy(ytRest.getToYtRestUser().getUserId().toString());
+			restVO.setVeg(ytRest.getIsVeg());
+			
+			result.setError(false);
+			result.setRestVO(restVO);
+			result.setYtRestVO(ytRest);
+			
+		}else{
+			
+			result.setError(true);
+			result.setErrorMsg("Resturant does not exist");
+		}
+		}
+		catch(Exception e){
+			result.setError(true);
+			result.setErrorMsg("Exception occoured while accessing restaurant :"+e.getMessage());
+		}
+		
+		return result;
 	}
 
+	
 	public ResultVO updateRestaurant(RestaurantVO restVO) {
-		// TODO Auto-generated method stub
+
+	    ResultVO result = new ResultVO();
+	    Integer restId =  restVO.getRestId();
+		YtRestaurants ytRest = new YtRestaurants();
+		ObjectContext context = DataContext.createDataContext();
+		
+		try{
+		
+		if(restId != null && restId.intValue() > 0) {
+			ytRest = DataObjectUtils.objectForPK(context, YtRestaurants.class, restId);
+		}
+		if(ytRest != null){
+		
+		if(!"".equals(restVO.getAcceptCC()) && restVO.getAcceptCC() != null )
+		ytRest.setAcceptCC(restVO.getAcceptCC());
+		
+		if(!"".equals(restVO.getActive()) && restVO.getActive() != null )
+			ytRest.setActive(restVO.getActive());
+		
+		if(!"".equals(restVO.getAddress()) && restVO.getAddress() != null )
+			ytRest.setAddress(restVO.getAddress());
+		
+		if(!"".equals(restVO.getAvgCostForTwo()) && restVO.getAvgCostForTwo() != null )
+			ytRest.setAvgCostForTwo(restVO.getAvgCostForTwo());
+		
+		if(!"".equals(restVO.getCity()) && restVO.getCity() != null )
+			ytRest.setCity(restVO.getCity());
+		
+		if(!"".equals(restVO.getCusines()) && restVO.getCusines() != null )
+			ytRest.setCusines(restVO.getCusines());
+		
+		if(!"".equals(restVO.getHasAC()) && restVO.getHasAC() != null )
+			ytRest.setHasAC(restVO.getHasAC());
+		
+		if(!"".equals(restVO.getHasWifi()) && restVO.getHasWifi() != null )
+			ytRest.setHasWifi(restVO.getHasWifi());	
+		
+		if(!"".equals(restVO.getIsVeg()) && restVO.getIsVeg() != null )
+			ytRest.setIsVeg(restVO.getIsVeg());
+		
+		if(!"".equals(restVO.getLatitude()) && restVO.getLatitude() != null )
+			ytRest.setLatitude(restVO.getLatitude());
+		
+		if(!"".equals(restVO.getLongitude()) && restVO.getLongitude() != null )
+			ytRest.setLongitude(restVO.getLongitude());
+		
+		if(!"".equals(restVO.getLocality()) && restVO.getLocality() != null )
+			ytRest.setLocality(restVO.getLocality());
+		
+		if(!"".equals(restVO.getName()) && restVO.getName() != null )
+			ytRest.setName(restVO.getName());
+		
+		if(!"".equals(restVO.getNfsPhone()) && restVO.getNfsPhone() != null )
+			ytRest.setNfsPhone(restVO.getNfsPhone());
+		
+		if(!"".equals(restVO.getPhones()) && restVO.getPhones() != null )
+			ytRest.setPhones(restVO.getPhones());
+		
+		context.commitChanges();
+		
+		}}catch(Exception e){
+			
+
+			result.setError(true);
+			result.setErrorMsg("Exception: User cannot be updated :"+e.getMessage());
+		}
+		
 		return null;
 	}
 
