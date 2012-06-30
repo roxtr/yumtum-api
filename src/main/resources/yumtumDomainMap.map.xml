@@ -28,7 +28,7 @@
 		<db-attribute name="CreatedBy" type="INTEGER" isMandatory="true" length="10"/>
 		<db-attribute name="available_seats" type="VARCHAR" length="45"/>
 		<db-attribute name="reserve_time" type="VARCHAR" isMandatory="true" length="45"/>
-		<db-attribute name="rest_id" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="restaurant_id" type="INTEGER" isMandatory="true" length="10"/>
 		<db-attribute name="time_of_day" type="VARCHAR" isMandatory="true" length="45"/>
 		<db-attribute name="timing_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
 		<db-attribute name="total_seats" type="VARCHAR" length="45"/>
@@ -63,7 +63,7 @@
 		<db-attribute name="nfs_phone" type="VARCHAR" isMandatory="true" length="15"/>
 		<db-attribute name="phones" type="VARCHAR" isMandatory="true" length="100"/>
 		<db-attribute name="rest_createBy" type="INTEGER" isMandatory="true" length="10"/>
-		<db-attribute name="rest_id" type="BIGINT" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="rest_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
 	</db-entity>
 	<obj-entity name="Betausers" className="in.yumtum.api.cayenne.persistent.Betausers" dbEntityName="betausers">
 		<obj-attribute name="email" type="java.lang.String" db-attribute-path="email"/>
@@ -129,7 +129,7 @@
 		<db-attribute-pair source="CreatedBy" target="user_id"/>
 	</db-relationship>
 	<db-relationship name="toYtRestaurants" source="yt_rest_timings" target="yt_restaurants" toMany="false">
-		<db-attribute-pair source="rest_id" target="rest_createBy"/>
+		<db-attribute-pair source="restaurant_id" target="rest_id"/>
 	</db-relationship>
 	<db-relationship name="ytRestBookingArray" source="yt_rest_timings" target="yt_rest_booking" toMany="true">
 		<db-attribute-pair source="timing_id" target="timing_id"/>
@@ -144,7 +144,7 @@
 		<db-attribute-pair source="rest_createBy" target="user_id"/>
 	</db-relationship>
 	<db-relationship name="ytRestTimingsArray" source="yt_restaurants" target="yt_rest_timings" toMany="true">
-		<db-attribute-pair source="rest_createBy" target="rest_id"/>
+		<db-attribute-pair source="rest_id" target="restaurant_id"/>
 	</db-relationship>
 	<obj-relationship name="toYtRestTimings" source="YtRestBooking" target="YtRestTimings" deleteRule="Nullify" db-relationship-path="toYtRestTimings"/>
 	<obj-relationship name="toYtRestUser" source="YtRestTimings" target="YtRestUser" deleteRule="Nullify" db-relationship-path="toYtRestUser"/>

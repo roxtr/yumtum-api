@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <domains project-version="3.0.0.1">
 <domain name="yumtumDomain">
-	<map name="yumtumMap" location="yumtumMap.map.xml"/>
+	<map name="yumtumDomainMap" location="yumtumDomainMap.map.xml"/>
 
 	<node name="yumtumDomainNode"
 		 datasource="yumtumDomainNode.driver.xml"
 		 factory="org.apache.cayenne.conf.DriverDataSourceFactory">
-			<map-ref name="yumtumMap"/>
+			<map-ref name="yumtumDomainMap"/>
 	 </node>
 </domain>
 </domains>
