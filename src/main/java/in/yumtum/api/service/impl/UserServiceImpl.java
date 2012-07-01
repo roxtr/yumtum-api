@@ -1,6 +1,7 @@
 package in.yumtum.api.service.impl;
 
 import in.yumtum.api.cayenne.persistent.YtRestUser;
+import in.yumtum.api.cayenne.persistent.YtRestaurants;
 import in.yumtum.api.crypto.Password;
 import in.yumtum.api.service.UserService;
 import in.yumtum.api.vo.ResultVO;
@@ -259,42 +260,37 @@ public class UserServiceImpl implements UserService {
 	}
 
 
-	public ResultVO getUser(ObjectContext context, String userName) {
+	public ResultVO getUser(ObjectContext context, Integer userId) {
 		
 		ResultVO result = new ResultVO();
 		
 		UserVO user = new UserVO();
 
-		Map<String,String> params = new HashMap<String,String>();
-		params.put("name", userName);
-
-		Expression qualifier = Expression.fromString("name = $name");
+		YtRestUser ytUser = new YtRestUser();
 		
-		qualifier = qualifier.expWithParameters(params);
-		
-		SelectQuery select = new SelectQuery(YtRestUser.class, qualifier);
-		List userList = context.performQuery(select);
+		if(userId != null && userId.intValue() > 0) {
+			ytUser = DataObjectUtils.objectForPK(context, YtRestUser.class, userId);
+		}
 		
 		
 		
-	    if(userList.size() > 0){
-	     	YtRestUser restUser = (YtRestUser) userList.get(0);
-	     	
-	     	user.setName(restUser.getName());
-	     	user.setfName(restUser.getFName());
-	     	user.setlName(restUser.getLName());
-	     	user.setAddress(restUser.getAddress());
-	     	user.setLocality(restUser.getLocality());
-	     	user.setCity(restUser.getCity());
-	     	user.setEmail(restUser.getEmail());
-	     	user.setPhone(restUser.getPhone());
-	     	user.setRestaurantsOwned(restUser.getRestaurantsOwned());
-	     	user.setUserId(restUser.getUserId());
-	     	user.setPassword(restUser.getPassword());
+		if(ytUser != null){
+			
+	     	user.setName(ytUser.getName());
+	     	user.setfName(ytUser.getFName());
+	     	user.setlName(ytUser.getLName());
+	     	user.setAddress(ytUser.getAddress());
+	     	user.setLocality(ytUser.getLocality());
+	     	user.setCity(ytUser.getCity());
+	     	user.setEmail(ytUser.getEmail());
+	     	user.setPhone(ytUser.getPhone());
+	     	user.setRestaurantsOwned(ytUser.getRestaurantsOwned());
+	     	user.setUserId(ytUser.getUserId());
+	     	user.setPassword(ytUser.getPassword());
 	     	
 	     	result.setError(false);
 	     	result.setUserVO(user);
-	     	result.setYtRestUserVO(restUser);
+	     	result.setYtRestUserVO(ytUser);
 				
 	    }else{
 	    	

@@ -28,7 +28,7 @@ public class RestaurantVO {
     private String phones;
     private Integer restId;
     private String timings;
-    private String rest_createdBy;
+    private Integer rest_createdBy;
     
 	public Integer getAcceptCC() {
 		return acceptCC;
@@ -132,10 +132,10 @@ public class RestaurantVO {
 	public void setTimings(String timings) {
 		this.timings = timings;
 	}
-	public String getRest_createdBy() {
+	public Integer getRest_createdBy() {
 		return rest_createdBy;
 	}
-	public void setRest_createdBy(String rest_createdBy) {
+	public void setRest_createdBy(Integer rest_createdBy) {
 		this.rest_createdBy = rest_createdBy;
 	}
 	

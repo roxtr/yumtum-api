@@ -54,6 +54,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 				
 				logger.error("Exception in createUser:"+e.getMessage());
 				
+
+				result.setError(true);
+				result.setErrorMsg("Exception occoured while creating restaurant :"+e.getMessage());
+				
 				//System.out.println("trace: "+e);
 			}
 		}else{
@@ -100,7 +104,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 			restVO.setName(ytRest.getName());
 			restVO.setNfsPhone(ytRest.getNfsPhone());
 			restVO.setPhones(ytRest.getPhones());
-			restVO.setRest_createdBy(ytRest.getToYtRestUser().getUserId().toString());
+			restVO.setRest_createdBy(ytRest.getToYtRestUser().getUserId());
 			restVO.setVeg(ytRest.getIsVeg());
 			
 			result.setError(false);
@@ -182,6 +186,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 			ytRest.setPhones(restVO.getPhones());
 		
 		context.commitChanges();
+
+		result.setError(false);
+		result.setErrorMsg("Restaurant Updated");
 		
 		}}catch(Exception e){
 			
@@ -201,7 +208,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("name", restVO.getName());
-		params.put("rest_createdBy", restVO.getRest_createdBy());
+		params.put("rest_createdBy", restVO.getRest_createdBy().toString());
 		params.put("locality", restVO.getLocality());
 		params.put("active", "1");
 		
@@ -245,10 +252,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restVO.setName("Chandamama Multicusine Restaurant");
 		restVO.setNfsPhone("9052228181");
 		restVO.setPhones("9052228181,9900132174");
-		restVO.setRest_createdBy("makamhareesh");
+		restVO.setRest_createdBy(200);
 		restVO.setVeg(1);
-		restServImpl.createRestaurant(restVO);
-		
+		ResultVO result = restServImpl.createRestaurant(restVO);
+		System.out.println(result.getErrorMsg());
 		
 	}
 	

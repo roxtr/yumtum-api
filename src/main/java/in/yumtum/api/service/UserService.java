@@ -11,7 +11,7 @@ public interface UserService {
 	public ResultVO checkUser(UserVO user);
 	public ResultVO updateUser(UserVO user);
 	public ResultVO getUser(String userName);
-	public ResultVO getUser(ObjectContext context, String userName);
+	public ResultVO getUser(ObjectContext context, Integer userId);
 	public ResultVO validateLogin(String userName, String password);
 	public ResultVO forgotPassword(UserVO user);
 	public boolean checkEmail(UserVO user);
