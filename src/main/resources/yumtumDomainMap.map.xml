@@ -19,6 +19,7 @@
 		<db-attribute name="bookingTime" type="TIMESTAMP" isMandatory="true" length="19"/>
 		<db-attribute name="booking_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
 		<db-attribute name="booking_source_id" type="VARCHAR" length="45"/>
+		<db-attribute name="booking_user_id" type="INTEGER" length="10"/>
 		<db-attribute name="no_of_people" type="VARCHAR" length="45"/>
 		<db-attribute name="reserve_date" type="DATE" isMandatory="true" length="10"/>
 		<db-attribute name="rest_id" type="INTEGER" isMandatory="true" length="10"/>
