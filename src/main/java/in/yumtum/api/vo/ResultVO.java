@@ -1,5 +1,6 @@
 package in.yumtum.api.vo;
 
+import in.yumtum.api.cayenne.persistent.YtRestTimings;
 import in.yumtum.api.cayenne.persistent.YtRestUser;
 import in.yumtum.api.cayenne.persistent.YtRestaurants;
 
@@ -11,6 +12,8 @@ public class ResultVO {
 	private YtRestUser ytRestUserVO;
 	private RestaurantVO restVO;
 	private YtRestaurants ytRestVO;
+	private TimingVO timingVO;
+	private YtRestTimings ytTimeVO;
 	
 	public boolean isError() {
 		return Error;
@@ -58,6 +61,22 @@ public class ResultVO {
 
 	public void setYtRestVO(YtRestaurants ytRestVO) {
 		this.ytRestVO = ytRestVO;
+	}
+
+	public TimingVO getTimingVO() {
+		return timingVO;
+	}
+
+	public void setTimingVO(TimingVO timingVO) {
+		this.timingVO = timingVO;
+	}
+
+	public YtRestTimings getYtTimeVO() {
+		return ytTimeVO;
+	}
+
+	public void setYtTimeVO(YtRestTimings ytTimeVO) {
+		this.ytTimeVO = ytTimeVO;
 	}
 
 	

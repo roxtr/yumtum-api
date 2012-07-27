@@ -12,7 +12,9 @@ import org.apache.cayenne.query.SelectQuery;
 
 import in.yumtum.api.cayenne.persistent.YtRestTimings;
 import in.yumtum.api.cayenne.persistent.YtRestUser;
+import in.yumtum.api.cayenne.persistent.YtRestaurants;
 import in.yumtum.api.service.timingService;
+import in.yumtum.api.vo.RestaurantVO;
 import in.yumtum.api.vo.ResultVO;
 import in.yumtum.api.vo.TimingVO;
 
@@ -157,6 +159,54 @@ public class TimingServiceImpl implements timingService {
 	}
 
 
+	public ResultVO getRestaurantTimings(TimingVO timingVO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
+	public ResultVO getRestaurantTimings(ObjectContext context,int id) {
+
+		ResultVO result = new ResultVO();
+		
+		TimingVO timingVO = new TimingVO();
+		
+		Integer timingId = id;
+		YtRestTimings ytTiming = new YtRestTimings();
+		
+		
+		try{
+		
+		if(timingId != null && timingId.intValue() > 0) {
+			ytTiming = DataObjectUtils.objectForPK(context, YtRestTimings.class, timingId);
+		}
+		if(ytTiming != null){
+			
+			timingVO.setTimingId(ytTiming.getTimingId());
+			timingVO.setAvailableSeats(ytTiming.getAvailableSeats());
+			timingVO.setCreatedBy(ytTiming.getToYtRestUser().getUserId());
+			timingVO.setReserveTime(ytTiming.getReserveTime());
+			timingVO.setRestaurant_id(ytTiming.getToYtRestaurants().getRestId().intValue());
+			timingVO.setTimeOfDay(ytTiming.getTimeOfDay());
+			timingVO.setTotalSeats(ytTiming.getTotalSeats());
+			result.setError(false);
+			result.setTimingVO(timingVO);
+			result.setYtTimeVO(ytTiming);
+			
+		}else{
+			
+			result.setError(true);
+			result.setErrorMsg("Resturant does not exist");
+		}
+		}
+		catch(Exception e){
+			result.setError(true);
+			result.setErrorMsg("Exception occoured while accessing restaurant :"+e.getMessage());
+		}
+		
+		return result;
+	}
+
 	/**
 	 * @param args
 	 */
@@ -164,11 +214,4 @@ public class TimingServiceImpl implements timingService {
 		// TODO Auto-generated method stub
 
 	}
-
-	public ResultVO getRestaurantTimings(TimingVO timingVO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 }

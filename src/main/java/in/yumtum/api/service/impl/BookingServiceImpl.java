@@ -32,17 +32,26 @@ public class BookingServiceImpl implements BookingService {
 		
 		boolean available = checkAvailability(bookingVO);
     
+		if(!available){
+			result.setError(true);
+			result.setErrorMsg("There are not seats available");
+		}
 		
-		if(!result.isError()){  
+		if(!result.isError() && available){  
 			
 			try{
-				
-				UserServiceImpl uSImpl = new UserServiceImpl();
-				RestaurantServiceImpl rSImpl = new RestaurantServiceImpl();
-				
+				TimingServiceImpl timingImpl = new TimingServiceImpl();
 				ObjectContext context = DataContext.createDataContext();
 				
-				YtRestTimings newTiming = new YtRestTimings();
+				YtRestBooking newBooking = new YtRestBooking();
+				
+				newBooking.setBookingSourceId(bookingVO.getBookingSourceId());
+				newBooking.setBookingTime(bookingVO.getBookingTime());
+				newBooking.setBookingUserId(bookingVO.getUser_id());
+				newBooking.setNoOfPeople(bookingVO.getNoOfPeople());
+				newBooking.setReserveDate(bookingVO.getReserveDate());
+				newBooking.setRestId(bookingVO.getRestId());
+				newBooking.setToYtRestTimings(timingImpl.getRestaurantTimings(context,bookingVO.getTiming_id()).getYtTimeVO());
 				
 				context.commitChanges();
 				
@@ -50,7 +59,7 @@ public class BookingServiceImpl implements BookingService {
 			}catch(Exception e){
 				
 				result.setError(true);
-				result.setErrorMsg("Exception occoured while creating restaurant :"+e.getMessage());
+				result.setErrorMsg("Exception occoured while creating timing :"+e.getMessage());
 
 			}
 		}
@@ -75,7 +84,7 @@ public class BookingServiceImpl implements BookingService {
 		
 		ResultVO result = new ResultVO();
 
-		Map<String,String> params = new HashMap<String,String>();
+		Map params = new HashMap();
 		params.put("rest_id", bookingVO.getRestId().toString());
 		params.put("timing_id", bookingVO.getTiming_id().toString());
 		params.put("reserve_date", bookingVO.getReserveDate());
@@ -132,7 +141,7 @@ public class BookingServiceImpl implements BookingService {
 		
 		if(available_seats.intValue() > 0 && booked_people.intValue() == 0){
 			return true;
-		}else if((available_seats.intValue() - booked_people.intValue()) > bookingVO.getNoOfPeople().intValue()){
+		}else if((available_seats.intValue() - booked_people.intValue()) > new Integer(bookingVO.getNoOfPeople()).intValue()){
 			return true;
 		}else{
 			return false;
