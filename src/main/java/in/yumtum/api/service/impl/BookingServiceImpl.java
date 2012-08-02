@@ -74,8 +74,32 @@ public class BookingServiceImpl implements BookingService {
 	}
 
 	public ResultVO deleteBooking(Integer bookingId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		ObjectContext context = DataContext.createDataContext();
+		
+		ResultVO result = new ResultVO();
+
+		try{
+
+		YtRestBooking booking = (YtRestBooking) DataObjectUtils.objectForPK(context, YtRestBooking.class, bookingId);
+		
+		if (booking != null) {
+		    context.deleteObject(booking);
+		    context.commitChanges();
+		    
+		    result.setError(false);
+		}else{
+			result.setError(true);
+			result.setErrorMsg("This booking does not exist");
+		}
+
+		}catch(Exception e){
+			result.setError(true);
+			result.setErrorMsg("error in deleting the booking"+e.getMessage());
+			
+		}
+		return result;
+	
 	}
 
 	public ResultVO checkBooking(BookingVO bookingVO) {
