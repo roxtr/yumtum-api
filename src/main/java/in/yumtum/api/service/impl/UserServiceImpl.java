@@ -226,7 +226,7 @@ public class UserServiceImpl implements UserService {
 	
 		ResultVO result = getUser(userName);
 		
-		if(!result.isError()){
+		if(result.isError()){
 			
 			return result;
 			
@@ -238,9 +238,9 @@ public class UserServiceImpl implements UserService {
 				
 				if(validate){
 					
-					result.setError(true);
-				}else{
 					result.setError(false);
+				}else{
+					result.setError(true);
 					result.setErrorMsg("Login Failed");
 				}
 				
@@ -330,7 +330,46 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public ResultVO getUser(String userName) {
-		// TODO Auto-generated method stub
-		return null;
+
+		ResultVO result = new ResultVO();
+		
+		ObjectContext context = DataContext.createDataContext();
+		Map<String,String> params = new HashMap<String,String>();
+		params.put("name", userName);
+
+		Expression qualifier = Expression.fromString("name = $name");
+		
+		qualifier = qualifier.expWithParameters(params);
+		
+		SelectQuery select = new SelectQuery(YtRestUser.class, qualifier);
+		List userList = context.performQuery(select);
+		
+		if(userList.size() == 1){
+			
+			YtRestUser ytUser = (YtRestUser) userList.get(0);
+			UserVO user = new UserVO();
+			
+			user.setName(ytUser.getName());
+	     	user.setfName(ytUser.getFName());
+	     	user.setlName(ytUser.getLName());
+	     	user.setAddress(ytUser.getAddress());
+	     	user.setLocality(ytUser.getLocality());
+	     	user.setCity(ytUser.getCity());
+	     	user.setEmail(ytUser.getEmail());
+	     	user.setPhone(ytUser.getPhone());
+	     	user.setRestaurantsOwned(ytUser.getRestaurantsOwned());
+	     	user.setUserId(ytUser.getUserId());
+	     	user.setPassword(ytUser.getPassword());
+	     	result.setError(false);
+	     	result.setUserVO(user);
+	     	result.setYtRestUserVO(ytUser);
+			
+		}else{
+			result.setError(true);
+			result.setErrorMsg("Invalid Login");
+		}
+		
+		return result;
+	
 	}
 }
