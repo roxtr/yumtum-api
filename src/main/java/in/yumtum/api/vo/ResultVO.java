@@ -36,7 +36,7 @@ public class ResultVO {
 	}
 
 	public void setUserVO(UserVO user) {
-		this.userVO = userVO;
+		this.userVO = user;
 	}
 
 	public YtRestUser getYtRestUserVO() {
