@@ -1,5 +1,6 @@
 package in.yumtum.api.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +50,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 			newRest.setNfsPhone(restVO.getNfsPhone());
 			newRest.setPhones(restVO.getPhones());
 			newRest.setToYtRestUser(uSImpl.getUser(context, restVO.getRest_createdBy()).getYtRestUserVO());
+			
+			
 			context.commitChanges();
 			}catch(Exception e){
 				
@@ -69,8 +72,11 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 
 	public ResultVO getRestaurantDetails(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+
+		ObjectContext context = DataContext.createDataContext();
+		
+		return getRestaurantDetails(context, id);
 	}
 
 	public ResultVO getRestaurantDetails(ObjectContext context,int id) {
@@ -205,14 +211,15 @@ public class RestaurantServiceImpl implements RestaurantService {
 		ObjectContext context = DataContext.createDataContext();
 		
 		ResultVO result = new ResultVO();
-
+		
+		try{
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("name", restVO.getName());
 		params.put("rest_createdBy", restVO.getRest_createdBy().toString());
 		params.put("locality", restVO.getLocality());
 		params.put("active", "1");
 		
-		Expression qualifier = Expression.fromString("name = $name and createdBy = $createdBy and locality = $locality and active = $active");
+		Expression qualifier = Expression.fromString("name = $name and toYtRestUser = $rest_createdBy and locality = $locality and active = $active");
 		
 		qualifier = qualifier.expWithParameters(params);
 		
@@ -227,6 +234,18 @@ public class RestaurantServiceImpl implements RestaurantService {
 		}else{
 			result.setError(false);
 		}
+		}catch(Exception e){
+			
+			result.setError(true);
+			result.setErrorMsg("Exception while checking restaurant");
+			e.printStackTrace();
+			logger.error("Error while checking restaurant"+e.getMessage());
+			
+			
+			
+		}
+		
+		
 		
 		return result;
 	}
@@ -254,9 +273,79 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restVO.setPhones("9052228181,9900132174");
 		restVO.setRest_createdBy(200);
 		restVO.setVeg(1);
-		ResultVO result = restServImpl.createRestaurant(restVO);
+		
+		//ResultVO result = restServImpl.getAllRestaurants("200", 200);
+		ResultVO result = restServImpl.checkRestaurant(restVO);
 		System.out.println(result.getErrorMsg());
 		
+	}
+
+
+	public ResultVO getAllRestaurants(String restIds, Integer userId) {
+
+		ObjectContext context = DataContext.createDataContext();
+		ResultVO result = new ResultVO();
+
+		Map<String,String> params = new HashMap<String,String>();
+		params.put("rest_createdBy", userId.toString());
+		params.put("active", "1");
+		
+		Expression qualifier = Expression.fromString("createBy = $rest_createdBy and active = $active");
+		
+		qualifier = qualifier.expWithParameters(params);
+		
+		SelectQuery select = new SelectQuery(YtRestaurants.class, qualifier);
+		List restList = context.performQuery(select);
+
+		List<RestaurantVO> restVOList = new ArrayList<RestaurantVO>();
+		
+		
+		if(restList.size() > 0){
+			
+			result.setError(true);
+			result.setErrorMsg("There is no active restaurant allocated to this User");
+			
+		}else{
+			result.setError(false);
+			
+			for(Object localObj : restList){
+				
+			  YtRestaurants ytRest = (YtRestaurants) localObj;
+			  
+			  restVOList.add(setLocalVO(ytRest));
+			  
+			  result.setRestVOList(restVOList);
+				
+			}
+			
+		}
+		
+		return result;
+		
+	}
+	
+	private RestaurantVO setLocalVO(YtRestaurants ytRest){
+		
+		RestaurantVO restVO= new RestaurantVO();
+		
+		restVO.setAcceptCC(ytRest.getAcceptCC());
+		restVO.setActive(ytRest.getActive());
+		restVO.setAddress(ytRest.getAddress());
+		restVO.setAvgCostForTwo(ytRest.getAvgCostForTwo());
+		restVO.setCity(ytRest.getCity());
+		restVO.setCusines(ytRest.getCusines());
+		restVO.setHasAC(ytRest.getHasAC());
+		restVO.setHasWifi(ytRest.getHasWifi());
+		restVO.setLatitude(ytRest.getLatitude());
+		restVO.setLongitude(ytRest.getLongitude());
+		restVO.setLocality(ytRest.getLocality());
+		restVO.setName(ytRest.getName());
+		restVO.setNfsPhone(ytRest.getNfsPhone());
+		restVO.setPhones(ytRest.getPhones());
+		restVO.setRest_createdBy(ytRest.getToYtRestUser().getUserId());
+		restVO.setVeg(ytRest.getIsVeg());
+		
+		return restVO;
 	}
 	
 
