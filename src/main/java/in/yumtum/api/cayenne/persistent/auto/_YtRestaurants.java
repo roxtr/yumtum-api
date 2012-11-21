@@ -141,11 +141,11 @@ public abstract class _YtRestaurants extends CayenneDataObject {
         return (String)readProperty("phones");
     }
 
-    public void setRestId(Long restId) {
+    public void setRestId(Integer restId) {
         writeProperty("restId", restId);
     }
-    public Long getRestId() {
-        return (Long)readProperty("restId");
+    public Integer getRestId() {
+        return (Integer)readProperty("restId");
     }
 
     public void setToYtRestUser(YtRestUser toYtRestUser) {

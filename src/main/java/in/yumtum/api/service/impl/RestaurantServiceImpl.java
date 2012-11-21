@@ -1,6 +1,7 @@
 package in.yumtum.api.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,10 +10,12 @@ import org.apache.cayenne.DataObjectUtils;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.exp.Expression;
+import org.apache.cayenne.query.SQLTemplate;
 import org.apache.cayenne.query.SelectQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import in.yumtum.api.cayenne.persistent.YtRestTimings;
 import in.yumtum.api.cayenne.persistent.YtRestUser;
 import in.yumtum.api.cayenne.persistent.YtRestaurants;
 import in.yumtum.api.crypto.Password;
@@ -32,6 +35,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 			try{
 			UserServiceImpl uSImpl = new UserServiceImpl();	
 			ObjectContext context = DataContext.createDataContext();
+			
+			YtRestUser ytUser = uSImpl.getUser(context, restVO.getRest_createdBy()).getYtRestUserVO();
 			YtRestaurants newRest = context.newObject(YtRestaurants.class);
 			
 			newRest.setAcceptCC(restVO.getAcceptCC());
@@ -49,10 +54,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 			newRest.setName(restVO.getName());
 			newRest.setNfsPhone(restVO.getNfsPhone());
 			newRest.setPhones(restVO.getPhones());
-			newRest.setToYtRestUser(uSImpl.getUser(context, restVO.getRest_createdBy()).getYtRestUserVO());
-			
+			newRest.setToYtRestUser(ytUser);
 			
 			context.commitChanges();
+			
 			}catch(Exception e){
 				
 				logger.error("Exception in createUser:"+e.getMessage());
@@ -255,7 +260,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 		RestaurantServiceImpl restServImpl = new RestaurantServiceImpl();
 		
 		RestaurantVO restVO = new RestaurantVO();
-		UserServiceImpl userSImpl = new UserServiceImpl();
+		/*UserServiceImpl userSImpl = new UserServiceImpl();
 		
 		restVO.setAcceptCC(1);
 		restVO.setActive(1);
@@ -272,12 +277,15 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restVO.setNfsPhone("9052228181");
 		restVO.setPhones("9052228181,9900132174");
 		restVO.setRest_createdBy(200);
-		restVO.setVeg(1);
+		restVO.setVeg(1);*/
 		
-		//ResultVO result = restServImpl.getAllRestaurants("200", 200);
-		ResultVO result = restServImpl.checkRestaurant(restVO);
+		ResultVO result = restServImpl.getAllRestaurantsByUser(200);
+		//ResultVO result = restServImpl.checkRestaurant(restVO);
 		System.out.println(result.getErrorMsg());
-		
+		System.out.println(result.getRestVOList().get(0).getName());
+		System.out.println(result.getRestVOList().get(1).getName());
+		System.out.println(result.getRestVOList().get(2).getName());
+		System.out.println(result.getRestVOList().get(3).getName());
 	}
 
 
@@ -286,21 +294,21 @@ public class RestaurantServiceImpl implements RestaurantService {
 		ObjectContext context = DataContext.createDataContext();
 		ResultVO result = new ResultVO();
 
-		Map<String,String> params = new HashMap<String,String>();
-		params.put("rest_createdBy", userId.toString());
+		String sql = "SELECT * from yt_restaurants WHERE rest_id IN (#bind($rest_id)) AND active = #bind($active)";
+		SQLTemplate select = new SQLTemplate(YtRestaurants.class, sql);
+		
+		Map params = new HashMap();
+		params.put("rest_id", Arrays.asList(restIds.split(",")));
 		params.put("active", "1");
 		
-		Expression qualifier = Expression.fromString("createBy = $rest_createdBy and active = $active");
+		select.setParameters(params);
 		
-		qualifier = qualifier.expWithParameters(params);
-		
-		SelectQuery select = new SelectQuery(YtRestaurants.class, qualifier);
-		List restList = context.performQuery(select);
+		List<YtRestaurants> restList = context.performQuery(select);
 
 		List<RestaurantVO> restVOList = new ArrayList<RestaurantVO>();
 		
 		
-		if(restList.size() > 0){
+		if(restList.size() < 1){
 			
 			result.setError(true);
 			result.setErrorMsg("There is no active restaurant allocated to this User");
@@ -344,8 +352,57 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restVO.setPhones(ytRest.getPhones());
 		restVO.setRest_createdBy(ytRest.getToYtRestUser().getUserId());
 		restVO.setVeg(ytRest.getIsVeg());
+		restVO.setRestId(ytRest.getRestId());
 		
 		return restVO;
+	}
+
+
+	public ResultVO getAllRestaurantsByUser(int userId) {
+		
+ObjectContext context = DataContext.createDataContext();
+		
+		ResultVO result = new ResultVO();
+		
+		try{
+		Map params = new HashMap();
+		params.put("rest_createdBy", userId);
+		params.put("active", "1");
+		
+		Expression qualifier = Expression.fromString("toYtRestUser = $rest_createdBy and active = $active");
+		
+		qualifier = qualifier.expWithParameters(params);
+		
+		SelectQuery select = new SelectQuery(YtRestaurants.class, qualifier);
+		List<YtRestaurants> restList = context.performQuery(select);
+		
+		List<RestaurantVO> restVOList = new ArrayList<RestaurantVO>();
+		
+		
+		if(restList.size() < 1){
+			
+			result.setError(true);
+			result.setErrorMsg("There is no active restaurant allocated to this User");
+			
+		}else{
+			result.setError(false);
+			
+			for(Object localObj : restList){
+				
+			  YtRestaurants ytRest = (YtRestaurants) localObj;
+			  
+			  restVOList.add(setLocalVO(ytRest));
+			  
+			  result.setRestVOList(restVOList);
+				
+			}}}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+		return result;
+		
 	}
 	
 
