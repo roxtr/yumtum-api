@@ -148,6 +148,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 		
 		if(restId != null && restId.intValue() > 0) {
 			ytRest = DataObjectUtils.objectForPK(context, YtRestaurants.class, restId);
+		}else{
+			result.setError(true);
+			result.setErrorMsg("Restaurant ID not supplied");
 		}
 		if(ytRest != null){
 		
@@ -208,7 +211,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 			result.setErrorMsg("Exception: User cannot be updated :"+e.getMessage());
 		}
 		
-		return null;
+		return result;
 	}
 
 	public ResultVO checkRestaurant(RestaurantVO restVO) {
