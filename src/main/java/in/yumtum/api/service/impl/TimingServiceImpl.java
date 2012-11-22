@@ -1,5 +1,11 @@
 package in.yumtum.api.service.impl;
 
+import in.yumtum.api.cayenne.persistent.YtRestTimings;
+import in.yumtum.api.service.timingService;
+import in.yumtum.api.vo.ResultVO;
+import in.yumtum.api.vo.TimingVO;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,14 +15,6 @@ import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.access.DataContext;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.query.SelectQuery;
-
-import in.yumtum.api.cayenne.persistent.YtRestTimings;
-import in.yumtum.api.cayenne.persistent.YtRestUser;
-import in.yumtum.api.cayenne.persistent.YtRestaurants;
-import in.yumtum.api.service.timingService;
-import in.yumtum.api.vo.RestaurantVO;
-import in.yumtum.api.vo.ResultVO;
-import in.yumtum.api.vo.TimingVO;
 
 public class TimingServiceImpl implements timingService {
 
@@ -159,19 +157,56 @@ public class TimingServiceImpl implements timingService {
 	}
 
 
-	public ResultVO getRestaurantTimings(TimingVO timingVO) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResultVO getRestaurantTimings(int restId) {
+
+		ObjectContext context = DataContext.createDataContext();
+		
+		ResultVO result = new ResultVO();
+
+		Map params = new HashMap();
+		params.put("restaurant_id", restId);
+		
+
+		Expression qualifier = Expression.fromString("restaurant_id = $restaurant_id");
+		
+		qualifier = qualifier.expWithParameters(params);
+		
+		SelectQuery select = new SelectQuery(YtRestTimings.class, qualifier);
+		
+		List<YtRestTimings> timeList = context.performQuery(select);
+		
+		List<TimingVO> timeVOList = new ArrayList<TimingVO>();
+		
+		if(timeList.size() < 1){
+			
+			result.setError(true);
+			result.setErrorMsg("No timings for This restaurant");
+			
+		}else{
+			result.setError(false);
+			
+			for(Object localObj : timeList){
+				
+				YtRestTimings ytRestTimings = (YtRestTimings) localObj;
+				  
+				  timeVOList.add(setLocalVO(ytRestTimings));
+				 	
+				}
+				
+			result.setTimeVOList(timeVOList);
+		}
+		
+		return result;
 	}
 	
 
-	public ResultVO getRestaurantTimings(ObjectContext context,int id) {
+	public ResultVO getRestaurantTimings(ObjectContext context,int timeId) {
 
 		ResultVO result = new ResultVO();
 		
 		TimingVO timingVO = new TimingVO();
 		
-		Integer timingId = id;
+		Integer timingId = timeId;
 		YtRestTimings ytTiming = new YtRestTimings();
 		
 		
@@ -214,4 +249,25 @@ public class TimingServiceImpl implements timingService {
 		// TODO Auto-generated method stub
 
 	}
+
+	public ResultVO getRestaurantTimings(TimingVO timingVO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	private TimingVO setLocalVO(YtRestTimings ytTimings){
+		
+		TimingVO timeVO= new TimingVO();
+		
+		timeVO.setAvailableSeats(ytTimings.getAvailableSeats());
+		timeVO.setCreatedBy(ytTimings.getToYtRestUser().getUserId());
+		timeVO.setReserveTime(ytTimings.getReserveTime());
+		timeVO.setRestaurant_id(ytTimings.getToYtRestaurants().getRestId());
+		timeVO.setTimeOfDay(ytTimings.getTimeOfDay());
+		timeVO.setTimingId(ytTimings.getTimingId());
+		timeVO.setTotalSeats(ytTimings.getTotalSeats());
+		
+		return timeVO;
+	}
+	
 }
