@@ -136,7 +136,7 @@ public class TimingServiceImpl implements timingService {
 		params.put("reserve_time", timingVO.getReserveTime());
 		
 
-		Expression qualifier = Expression.fromString("time_of_day = $time_of_day and createdBy = $createdBy and restaurant_id = $restaurant_id and reserve_time = $reserve_time");
+		Expression qualifier = Expression.fromString("timeOfDay = $time_of_day and toYtRestUser = $createdBy and toYtRestaurants = $restaurant_id and reserveTime = $reserve_time");
 		
 		qualifier = qualifier.expWithParameters(params);
 		
@@ -167,7 +167,7 @@ public class TimingServiceImpl implements timingService {
 		params.put("restaurant_id", restId);
 		
 
-		Expression qualifier = Expression.fromString("restaurant_id = $restaurant_id");
+		Expression qualifier = Expression.fromString("toYtRestaurants = $restaurant_id");
 		
 		qualifier = qualifier.expWithParameters(params);
 		
@@ -268,6 +268,15 @@ public class TimingServiceImpl implements timingService {
 		timeVO.setTotalSeats(ytTimings.getTotalSeats());
 		
 		return timeVO;
+	}
+	
+	public ResultVO getRestaurantTimingsById(int timeId) {
+		
+		ObjectContext context = DataContext.createDataContext();
+		
+		ResultVO result = getRestaurantTimings(context, timeId);
+	
+	return result;
 	}
 	
 }
