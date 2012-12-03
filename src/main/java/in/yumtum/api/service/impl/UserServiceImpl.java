@@ -46,6 +46,9 @@ public class UserServiceImpl implements UserService {
 				newUser.setEmail(user.getEmail());
 				newUser.setPassword(hashPass);
 				newUser.setPhone(user.getPhone());
+				newUser.setAdmin(user.getAdmin());
+				newUser.setRestaurantCreate(user.getRestaurantCreate());
+				newUser.setRestaurantsAccess(user.getRestaurantsAccess());
 				
 				context.commitChanges();
 				
@@ -111,25 +114,44 @@ public class UserServiceImpl implements UserService {
 			restUser = DataObjectUtils.objectForPK(context, YtRestUser.class, userId);
 		}
 		
-		if(!"".equals(user.getAddress()) || user.getAddress() != null){
+		if(!"".equals(user.getAddress()) && user.getAddress() != null){
 			restUser.setAddress(user.getAddress());
-		}else if (!"".equals(user.getCity()) || user.getCity() != null){
+		}
+		if (!"".equals(user.getCity()) && user.getCity() != null){
 			restUser.setCity(user.getCity());
-		}else if (!"".equals(user.getEmail()) || user.getEmail() != null){
+		}
+		if (!"".equals(user.getEmail()) && user.getEmail() != null){
 			restUser.setEmail(user.getEmail());
-		}else if (!"".equals(user.getfName()) || user.getfName() != null){
+		}
+		if (!"".equals(user.getfName()) && user.getfName() != null){
 			restUser.setFName(user.getfName());
-		}else if (!"".equals(user.getlName()) || user.getlName() != null){
+		}
+		if (!"".equals(user.getlName()) && user.getlName() != null){
 			restUser.setLName(user.getlName());
-		}else if (!"".equals(user.getLocality()) || user.getLocality() != null){
+		}
+		if (!"".equals(user.getLocality()) && user.getLocality() != null){
 			restUser.setLocality(user.getLocality());
-		}else if (!"".equals(user.getPassword()) || user.getPassword() != null){
+		}
+		if (!"".equals(user.getPassword()) && user.getPassword() != null){
 			restUser.setPassword(user.getPassword());
-		}else if (!"".equals(user.getPhone()) || user.getPhone() != null){
+		}
+		if (!"".equals(user.getPhone()) && user.getPhone() != null){
 			restUser.setPhone(user.getPhone());
-		}else if (!"".equals(user.getRestaurantsOwned()) || user.getRestaurantsOwned() != null){
+		}
+		if (!"".equals(user.getRestaurantsOwned()) && user.getRestaurantsOwned() != null){
 			restUser.setRestaurantsOwned(user.getRestaurantsOwned());
 		}
+		if (!"".equals(user.getRestaurantsAccess()) && user.getRestaurantsAccess() != null){
+			restUser.setRestaurantsAccess((user.getRestaurantsAccess()));
+		}
+		if (user.getAdmin() != null){
+			restUser.setAdmin((user.getAdmin()));
+		}
+		if (user.getRestaurantCreate() != null){
+			restUser.setRestaurantCreate((user.getRestaurantCreate()));
+		}
+		
+		
 		
 		context.commitChanges();
 		
@@ -317,10 +339,15 @@ public class UserServiceImpl implements UserService {
 		newUser.setEmail("hareesh.makam@oracle.com");
 		newUser.setPassword("hareesh");
 		newUser.setPhone("9900132174");
+		newUser.setAdmin(true);
+		
+		user.setUserId(220);
+		user.setPassword("sripathi");
 		
 		UserServiceImpl userSImpl = new UserServiceImpl();
 		
-		ResultVO resultVO = userSImpl.createUser(newUser);
+		//ResultVO resultVO = userSImpl.createUser(newUser);
+		ResultVO resultVO = userSImpl.updateUser(user);
 		
 		//System.out.println(resultVO.getErrorMsg());
 		/*
@@ -360,6 +387,9 @@ public class UserServiceImpl implements UserService {
 	     	user.setRestaurantsOwned(ytUser.getRestaurantsOwned());
 	     	user.setUserId(ytUser.getUserId());
 	     	user.setPassword(ytUser.getPassword());
+	     	user.setAdmin(ytUser.getAdmin());
+	     	user.setRestaurantCreate(ytUser.getRestaurantCreate());
+	     	user.setRestaurantsAccess(ytUser.getRestaurantsAccess());
 	     	result.setError(false);
 	     	result.setUserVO(user);
 	     	result.setYtRestUserVO(ytUser);

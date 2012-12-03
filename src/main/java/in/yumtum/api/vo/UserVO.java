@@ -13,6 +13,9 @@ public class UserVO {
 	private String phone;
 	private String restaurantsOwned;
 	private Integer userId;
+	private Boolean admin;
+	private Boolean restaurantCreate;
+	private String restaurantsAccess;
 	
 	public String getAddress() {
 		return address;
@@ -80,5 +83,24 @@ public class UserVO {
 	public void setUserId(Integer integer) {
 		this.userId = integer;
 	}
+	public Boolean getAdmin() {
+		return admin;
+	}
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
+	}
+	public Boolean getRestaurantCreate() {
+		return restaurantCreate;
+	}
+	public void setRestaurantCreate(Boolean restaurantCreate) {
+		this.restaurantCreate = restaurantCreate;
+	}
+	public String getRestaurantsAccess() {
+		return restaurantsAccess;
+	}
+	public void setRestaurantsAccess(String restaurantsAccess) {
+		this.restaurantsAccess = restaurantsAccess;
+	}
+	
 	
 }

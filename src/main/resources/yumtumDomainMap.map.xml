@@ -36,6 +36,7 @@
 	</db-entity>
 	<db-entity name="yt_rest_user" catalog="yumtum">
 		<db-attribute name="address" type="VARCHAR" length="2000"/>
+		<db-attribute name="admin" type="BOOLEAN" length="10"/>
 		<db-attribute name="city" type="VARCHAR" length="100"/>
 		<db-attribute name="email" type="VARCHAR" isMandatory="true" length="100"/>
 		<db-attribute name="fName" type="VARCHAR" isMandatory="true" length="100"/>
@@ -44,6 +45,8 @@
 		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="100"/>
 		<db-attribute name="password" type="VARCHAR" isMandatory="true" length="100"/>
 		<db-attribute name="phone" type="VARCHAR" isMandatory="true" length="20"/>
+		<db-attribute name="restaurant_create" type="BOOLEAN" length="10"/>
+		<db-attribute name="restaurants_access" type="VARCHAR" length="45"/>
 		<db-attribute name="restaurants_owned" type="VARCHAR" length="45"/>
 		<db-attribute name="user_id" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
 	</db-entity>
@@ -94,6 +97,7 @@
 	</obj-entity>
 	<obj-entity name="YtRestUser" className="in.yumtum.api.cayenne.persistent.YtRestUser" dbEntityName="yt_rest_user">
 		<obj-attribute name="address" type="java.lang.String" db-attribute-path="address"/>
+		<obj-attribute name="admin" type="java.lang.Boolean" db-attribute-path="admin"/>
 		<obj-attribute name="city" type="java.lang.String" db-attribute-path="city"/>
 		<obj-attribute name="email" type="java.lang.String" db-attribute-path="email"/>
 		<obj-attribute name="fName" type="java.lang.String" db-attribute-path="fName"/>
@@ -102,8 +106,10 @@
 		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
 		<obj-attribute name="password" type="java.lang.String" db-attribute-path="password"/>
 		<obj-attribute name="phone" type="java.lang.String" db-attribute-path="phone"/>
+		<obj-attribute name="restaurantCreate" type="java.lang.Boolean" db-attribute-path="restaurant_create"/>
+		<obj-attribute name="restaurantsAccess" type="java.lang.String" db-attribute-path="restaurants_access"/>
 		<obj-attribute name="restaurantsOwned" type="java.lang.String" db-attribute-path="restaurants_owned"/>
-		<obj-attribute name="userId" type="java.lang.Integer" db-attribute-path="user_id"/>
+		<obj-attribute name="userId" type="java.lang.Long" db-attribute-path="user_id"/>
 	</obj-entity>
 	<obj-entity name="YtRestaurants" className="in.yumtum.api.cayenne.persistent.YtRestaurants" dbEntityName="yt_restaurants">
 		<obj-attribute name="acceptCC" type="java.lang.Integer" db-attribute-path="acceptCC"/>

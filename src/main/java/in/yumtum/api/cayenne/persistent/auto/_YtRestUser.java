@@ -16,6 +16,7 @@ import in.yumtum.api.cayenne.persistent.YtRestaurants;
 public abstract class _YtRestUser extends CayenneDataObject {
 
     public static final String ADDRESS_PROPERTY = "address";
+    public static final String ADMIN_PROPERTY = "admin";
     public static final String CITY_PROPERTY = "city";
     public static final String EMAIL_PROPERTY = "email";
     public static final String F_NAME_PROPERTY = "fName";
@@ -24,6 +25,8 @@ public abstract class _YtRestUser extends CayenneDataObject {
     public static final String NAME_PROPERTY = "name";
     public static final String PASSWORD_PROPERTY = "password";
     public static final String PHONE_PROPERTY = "phone";
+    public static final String RESTAURANT_CREATE_PROPERTY = "restaurantCreate";
+    public static final String RESTAURANTS_ACCESS_PROPERTY = "restaurantsAccess";
     public static final String RESTAURANTS_OWNED_PROPERTY = "restaurantsOwned";
     public static final String USER_ID_PROPERTY = "userId";
     public static final String YT_REST_TIMINGS_ARRAY_PROPERTY = "ytRestTimingsArray";
@@ -36,6 +39,13 @@ public abstract class _YtRestUser extends CayenneDataObject {
     }
     public String getAddress() {
         return (String)readProperty("address");
+    }
+
+    public void setAdmin(Boolean admin) {
+        writeProperty("admin", admin);
+    }
+    public Boolean getAdmin() {
+        return (Boolean)readProperty("admin");
     }
 
     public void setCity(String city) {
@@ -92,6 +102,20 @@ public abstract class _YtRestUser extends CayenneDataObject {
     }
     public String getPhone() {
         return (String)readProperty("phone");
+    }
+
+    public void setRestaurantCreate(Boolean restaurantCreate) {
+        writeProperty("restaurantCreate", restaurantCreate);
+    }
+    public Boolean getRestaurantCreate() {
+        return (Boolean)readProperty("restaurantCreate");
+    }
+
+    public void setRestaurantsAccess(String restaurantsAccess) {
+        writeProperty("restaurantsAccess", restaurantsAccess);
+    }
+    public String getRestaurantsAccess() {
+        return (String)readProperty("restaurantsAccess");
     }
 
     public void setRestaurantsOwned(String restaurantsOwned) {
