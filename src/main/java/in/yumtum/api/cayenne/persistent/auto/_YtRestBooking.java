@@ -17,7 +17,6 @@ public abstract class _YtRestBooking extends CayenneDataObject {
     public static final String BOOKING_ID_PROPERTY = "bookingId";
     public static final String BOOKING_SOURCE_ID_PROPERTY = "bookingSourceId";
     public static final String BOOKING_TIME_PROPERTY = "bookingTime";
-    public static final String BOOKING_USER_ID_PROPERTY = "bookingUserId";
     public static final String NO_OF_PEOPLE_PROPERTY = "noOfPeople";
     public static final String RESERVE_DATE_PROPERTY = "reserveDate";
     public static final String REST_ID_PROPERTY = "restId";
@@ -44,13 +43,6 @@ public abstract class _YtRestBooking extends CayenneDataObject {
     }
     public Date getBookingTime() {
         return (Date)readProperty("bookingTime");
-    }
-
-    public void setBookingUserId(Integer bookingUserId) {
-        writeProperty("bookingUserId", bookingUserId);
-    }
-    public Integer getBookingUserId() {
-        return (Integer)readProperty("bookingUserId");
     }
 
     public void setNoOfPeople(String noOfPeople) {

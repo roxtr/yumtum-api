@@ -363,7 +363,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	public ResultVO getAllRestaurantsByUser(int userId) {
 		
-ObjectContext context = DataContext.createDataContext();
+		ObjectContext context = DataContext.createDataContext();
 		
 		ResultVO result = new ResultVO();
 		

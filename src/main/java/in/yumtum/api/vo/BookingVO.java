@@ -12,7 +12,6 @@ public class BookingVO {
     private Date reserveDate;
     private Integer restId;
     private Integer timing_id;
-    private Integer user_id;
     
 	public Integer getBookingId() {
 		return bookingId;
@@ -56,11 +55,6 @@ public class BookingVO {
 	public void setTiming_id(Integer timing_id) {
 		this.timing_id = timing_id;
 	}
-	public Integer getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(Integer user_id) {
-		this.user_id = user_id;
-	}
+	
 
 }

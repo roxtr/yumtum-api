@@ -1,5 +1,7 @@
 package in.yumtum.api.service.impl;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +49,6 @@ public class BookingServiceImpl implements BookingService {
 				
 				newBooking.setBookingSourceId(bookingVO.getBookingSourceId());
 				newBooking.setBookingTime(bookingVO.getBookingTime());
-				newBooking.setBookingUserId(bookingVO.getUser_id());
 				newBooking.setNoOfPeople(bookingVO.getNoOfPeople());
 				newBooking.setReserveDate(bookingVO.getReserveDate());
 				newBooking.setRestId(bookingVO.getRestId());
@@ -112,9 +113,8 @@ public class BookingServiceImpl implements BookingService {
 		params.put("rest_id", bookingVO.getRestId().toString());
 		params.put("timing_id", bookingVO.getTiming_id().toString());
 		params.put("reserve_date", bookingVO.getReserveDate());
-		params.put("user_id", bookingVO.getUser_id());
 		
-		Expression qualifier = Expression.fromString("rest_id = $rest_id and timing_id = $timing_id and reserve_date = $reserve_date and user_id = $user_id");
+		Expression qualifier = Expression.fromString("restId = $rest_id and toYtRestTimings = $timing_id and reserveDate = $reserve_date");
 		
 		qualifier = qualifier.expWithParameters(params);
 		
@@ -148,8 +148,8 @@ public class BookingServiceImpl implements BookingService {
 		Integer available_seats = new Integer(ytTime.getAvailableSeats());
 		
 		
-		String sql = "SELECT sum(no_of_people) from yt_rest_booking WHERE rest_id = (#bind($rest_id) AND timing_id = (#bind($timing_id) AND reserve_date = (#bind($reserve_date))";
-		SQLTemplate select = new SQLTemplate(YtRestTimings.class, sql);
+		String sql = "SELECT sum(no_of_people) from yt_rest_booking WHERE rest_id = (#bind($rest_id)) AND timing_id = (#bind($timing_id)) AND reserve_date = (#bind($reserve_date))";
+		SQLTemplate select = new SQLTemplate(YtRestBooking.class, sql);
 		
 		Map parameters = new HashMap();
 		parameters.put("rest_id",bookingVO.getRestId());
@@ -163,6 +163,13 @@ public class BookingServiceImpl implements BookingService {
 		
 		Number booked_people = (Number) DataObjectUtils.objectForQuery(context, select);
 		
+		if(available_seats == null){
+			available_seats = 0;
+		}
+		if(booked_people == null){
+			booked_people = 0;
+		}
+		
 		if(available_seats.intValue() > 0 && booked_people.intValue() == 0){
 			return true;
 		}else if((available_seats.intValue() - booked_people.intValue()) > new Integer(bookingVO.getNoOfPeople()).intValue()){
@@ -171,6 +178,45 @@ public class BookingServiceImpl implements BookingService {
 			return false;
 		}
 		
+	}
+	
+	public ResultVO getBookings(String restIds){
+		
+		ObjectContext context = DataContext.createDataContext();
+
+		ResultVO result = new ResultVO();
+
+		Map params = new HashMap();
+		params.put("rest_id", Arrays.asList(restIds.split(",")));
+		//params.put("reserve_date", reserveDate);
+		
+
+		String sql = "SELECT * from yt_rest_booking WHERE rest_id IN (#bind($rest_id)) AND reserve_date = #bind($reserveDate)";
+		SQLTemplate select = new SQLTemplate(YtRestaurants.class, sql);
+		select.setParameters(params);
+		List bookingList = context.performQuery(select);
+		
+
+		return null;
+	}
+	
+	public static void main(String args[]){
+		
+		BookingVO booking = new BookingVO();
+		
+		booking.setBookingSourceId("Online");
+		booking.setBookingTime(new Date(2012, 12, 01));
+		booking.setNoOfPeople("10");
+		booking.setReserveDate(new Date(2012, 12, 02));
+		booking.setRestId(200);
+		booking.setTiming_id(200);
+		
+		BookingServiceImpl bookingService = new BookingServiceImpl();
+		
+		ResultVO result = bookingService.createBooking(booking);
+		System.out.println(result.getErrorMsg());
+		
+
 	}
 
 }
