@@ -325,10 +325,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 			  
 			  restVOList.add(setLocalVO(ytRest));
 			  
+			}
+
 			  result.setRestVOList(restVOList);
 				
-			}
-			
 		}
 		
 		return result;
