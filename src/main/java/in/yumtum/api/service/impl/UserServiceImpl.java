@@ -341,13 +341,11 @@ public class UserServiceImpl implements UserService {
 		newUser.setPhone("9900132174");
 		newUser.setAdmin(true);
 		
-		user.setUserId(220);
-		user.setPassword("sripathi");
 		
 		UserServiceImpl userSImpl = new UserServiceImpl();
 		
-		//ResultVO resultVO = userSImpl.createUser(newUser);
-		ResultVO resultVO = userSImpl.updateUser(user);
+		ResultVO resultVO = userSImpl.createUser(newUser);
+		//ResultVO resultVO = userSImpl.updateUser(user);
 		
 		//System.out.println(resultVO.getErrorMsg());
 		/*

@@ -1,5 +1,6 @@
 package in.yumtum.api.service.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import in.yumtum.api.cayenne.persistent.YtRestaurants;
 import in.yumtum.api.service.BookingService;
 import in.yumtum.api.vo.BookingVO;
 import in.yumtum.api.vo.ResultVO;
+import in.yumtum.api.vo.TimingVO;
 
 public class BookingServiceImpl implements BookingService {
 
@@ -195,10 +197,50 @@ public class BookingServiceImpl implements BookingService {
 		SQLTemplate select = new SQLTemplate(YtRestaurants.class, sql);
 		select.setParameters(params);
 		List bookingList = context.performQuery(select);
+		List<BookingVO> bookingVOList = new ArrayList<BookingVO>();
 		
 
-		return null;
+		if(bookingList.size() < 1){
+			
+			result.setError(true);
+			result.setErrorMsg("No timings for This restaurant");
+			
+		}else{
+			
+
+			result.setError(false);
+			
+			for(Object localObj : bookingList){
+				
+				YtRestBooking ytRestBooking = (YtRestBooking) localObj;
+				  
+				bookingVOList.add(setLocalVO(ytRestBooking));
+				 	
+				}
+				
+			result.setBookVOList(bookingVOList);
+		
+		}
+		
+		return result;
 	}
+	
+	
+	private BookingVO setLocalVO(YtRestBooking ytRestBooking){
+		
+		BookingVO bookVO= new BookingVO();
+		
+		bookVO.setBookingId(ytRestBooking.getBookingId());
+		bookVO.setBookingSourceId(ytRestBooking.getBookingSourceId());
+		bookVO.setBookingTime(ytRestBooking.getBookingTime());
+		bookVO.setNoOfPeople(ytRestBooking.getNoOfPeople());
+		bookVO.setReserveDate(ytRestBooking.getReserveDate());
+		bookVO.setRestId(ytRestBooking.getRestId());
+		bookVO.setTiming_id(ytRestBooking.getToYtRestTimings().getTimingId());
+		
+		return bookVO;
+	}
+	
 	
 	public static void main(String args[]){
 		
@@ -218,5 +260,7 @@ public class BookingServiceImpl implements BookingService {
 		
 
 	}
+	
+	
 
 }

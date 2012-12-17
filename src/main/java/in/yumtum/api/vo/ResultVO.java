@@ -18,6 +18,7 @@ public class ResultVO {
 	private YtRestTimings ytTimeVO;
 	private List<RestaurantVO> restVOList;
 	private List<TimingVO> timeVOList;
+	private List<BookingVO> bookVOList;
 	
 	public boolean isError() {
 		return Error;
@@ -97,6 +98,14 @@ public class ResultVO {
 
 	public void setTimeVOList(List<TimingVO> timeVOList) {
 		this.timeVOList = timeVOList;
+	}
+
+	public List<BookingVO> getBookVOList() {
+		return bookVOList;
+	}
+
+	public void setBookVOList(List<BookingVO> bookVOList) {
+		this.bookVOList = bookVOList;
 	}
 
 	
