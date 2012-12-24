@@ -193,10 +193,10 @@ public class BookingServiceImpl implements BookingService {
 		//params.put("reserve_date", reserveDate);
 		
 
-		String sql = "SELECT * from yt_rest_booking WHERE rest_id IN (#bind($rest_id)) AND reserve_date = #bind($reserveDate)";
-		SQLTemplate select = new SQLTemplate(YtRestaurants.class, sql);
+		String sql = "SELECT * from yt_rest_booking WHERE rest_id IN (#bind($rest_id))";
+		SQLTemplate select = new SQLTemplate(YtRestBooking.class, sql);
 		select.setParameters(params);
-		List bookingList = context.performQuery(select);
+		List<YtRestBooking> bookingList = context.performQuery(select);
 		List<BookingVO> bookingVOList = new ArrayList<BookingVO>();
 		
 
