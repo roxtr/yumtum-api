@@ -14,9 +14,12 @@ import in.yumtum.api.cayenne.persistent.YtRestTimings;
  */
 public abstract class _YtRestBooking extends CayenneDataObject {
 
+    public static final String BOOKING_EMAIL_PROPERTY = "bookingEmail";
     public static final String BOOKING_ID_PROPERTY = "bookingId";
+    public static final String BOOKING_PHONE_NO_PROPERTY = "bookingPhoneNo";
     public static final String BOOKING_SOURCE_ID_PROPERTY = "bookingSourceId";
     public static final String BOOKING_TIME_PROPERTY = "bookingTime";
+    public static final String BOOKING_USER_PROPERTY = "bookingUser";
     public static final String NO_OF_PEOPLE_PROPERTY = "noOfPeople";
     public static final String RESERVE_DATE_PROPERTY = "reserveDate";
     public static final String REST_ID_PROPERTY = "restId";
@@ -24,11 +27,25 @@ public abstract class _YtRestBooking extends CayenneDataObject {
 
     public static final String BOOKING_ID_PK_COLUMN = "booking_id";
 
+    public void setBookingEmail(String bookingEmail) {
+        writeProperty("bookingEmail", bookingEmail);
+    }
+    public String getBookingEmail() {
+        return (String)readProperty("bookingEmail");
+    }
+
     public void setBookingId(Integer bookingId) {
         writeProperty("bookingId", bookingId);
     }
     public Integer getBookingId() {
         return (Integer)readProperty("bookingId");
+    }
+
+    public void setBookingPhoneNo(String bookingPhoneNo) {
+        writeProperty("bookingPhoneNo", bookingPhoneNo);
+    }
+    public String getBookingPhoneNo() {
+        return (String)readProperty("bookingPhoneNo");
     }
 
     public void setBookingSourceId(String bookingSourceId) {
@@ -43,6 +60,13 @@ public abstract class _YtRestBooking extends CayenneDataObject {
     }
     public Date getBookingTime() {
         return (Date)readProperty("bookingTime");
+    }
+
+    public void setBookingUser(String bookingUser) {
+        writeProperty("bookingUser", bookingUser);
+    }
+    public String getBookingUser() {
+        return (String)readProperty("bookingUser");
     }
 
     public void setNoOfPeople(String noOfPeople) {

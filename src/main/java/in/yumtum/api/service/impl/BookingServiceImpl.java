@@ -55,6 +55,10 @@ public class BookingServiceImpl implements BookingService {
 				newBooking.setReserveDate(bookingVO.getReserveDate());
 				newBooking.setRestId(bookingVO.getRestId());
 				newBooking.setToYtRestTimings(timingImpl.getRestaurantTimings(context,bookingVO.getTiming_id()).getYtTimeVO());
+				newBooking.setBookingEmail(bookingVO.getBookingEmail());
+				newBooking.setBookingUser(bookingVO.getBookingUser());
+				newBooking.setBookingPhoneNo(bookingVO.getBookingPhoneNo());
+				
 				
 				context.commitChanges();
 				
@@ -237,6 +241,9 @@ public class BookingServiceImpl implements BookingService {
 		bookVO.setReserveDate(ytRestBooking.getReserveDate());
 		bookVO.setRestId(ytRestBooking.getRestId());
 		bookVO.setTiming_id(ytRestBooking.getToYtRestTimings().getTimingId());
+		bookVO.setBookingEmail(ytRestBooking.getBookingEmail());
+		bookVO.setBookingUser(ytRestBooking.getBookingUser());
+		bookVO.setBookingPhoneNo(ytRestBooking.getBookingPhoneNo());
 		
 		return bookVO;
 	}
@@ -247,11 +254,14 @@ public class BookingServiceImpl implements BookingService {
 		BookingVO booking = new BookingVO();
 		
 		booking.setBookingSourceId("Online");
-		booking.setBookingTime(new Date(2012, 12, 01));
+		booking.setBookingTime(new Date(2013, 04, 30));
 		booking.setNoOfPeople("10");
-		booking.setReserveDate(new Date(2012, 12, 02));
+		booking.setReserveDate(new Date(2013, 04, 30));
 		booking.setRestId(200);
 		booking.setTiming_id(200);
+		booking.setBookingEmail("makamhareesh@gmail.com");
+		booking.setBookingUser("hareesh");
+		booking.setBookingPhoneNo("9052228181");
 		
 		BookingServiceImpl bookingService = new BookingServiceImpl();
 		

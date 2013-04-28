@@ -12,6 +12,9 @@ public class BookingVO {
     private Date reserveDate;
     private Integer restId;
     private Integer timing_id;
+    private String bookingUser;
+    private String bookingPhoneNo;
+    private String bookingEmail;
     
 	public Integer getBookingId() {
 		return bookingId;
@@ -54,6 +57,24 @@ public class BookingVO {
 	}
 	public void setTiming_id(Integer timing_id) {
 		this.timing_id = timing_id;
+	}
+	public String getBookingUser() {
+		return bookingUser;
+	}
+	public void setBookingUser(String bookingUser) {
+		this.bookingUser = bookingUser;
+	}
+	public String getBookingPhoneNo() {
+		return bookingPhoneNo;
+	}
+	public void setBookingPhoneNo(String bookingPhoneNo) {
+		this.bookingPhoneNo = bookingPhoneNo;
+	}
+	public String getBookingEmail() {
+		return bookingEmail;
+	}
+	public void setBookingEmail(String bookingEmail) {
+		this.bookingEmail = bookingEmail;
 	}
 	
 
