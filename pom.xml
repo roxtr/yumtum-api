@@ -25,7 +25,7 @@
 	  <groupId>org.apache.cayenne</groupId>
 	  <artifactId>cayenne-server</artifactId>
    <!-- Here specify the version of Cayenne you are actually using -->
-	  <version>3.0RC2</version>
+	  <version>4.1.1</version>
     </dependency>
     <dependency>
 	<groupId>mysql</groupId>
